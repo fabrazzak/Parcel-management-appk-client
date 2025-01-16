@@ -1,4 +1,5 @@
 import MainLayout from "@/src/MainLayout/MainLayout";
+import DashBoard from "@/src/pages/DashBoard/DashBoard";
 import HomePage from "@/src/pages/HomePage/HomePage";
 import Login from "@/src/pages/Login/Login";
 import NotFound from "@/src/pages/NotFound/NotFound";
@@ -30,7 +31,10 @@ import {
             element: <NotFound></NotFound>
         }
       ]
-    },
+    },{
+      path:"dashboard",
+      element:<DashBoard></DashBoard>
+    }
 
   ]);
 

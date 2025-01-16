@@ -9,6 +9,7 @@ const ContextProvider = ({children}) => {
 
  const [loading,setLoading]=useState(true)
  const [user, setUser] = useState([]);
+ const [isActive, setIsActive] = useState(() => localStorage.getItem('activePage') || 'home')
 
  
 const createUser=(email,password)=>{
@@ -60,8 +61,12 @@ const loginWithGoogle = () => {
         })
         return unsubscribe
     }, [])
+    
+    useEffect(() => {
+        localStorage.setItem('activePage', isActive);
+    }, [isActive]);
 
-    const info={user,createUser,loginUser,loading, loginWithGoogle,signOutUser, updatePass, profileUpdate}
+    const info={user,createUser,loginUser,loading, loginWithGoogle,signOutUser, updatePass, profileUpdate ,isActive,setIsActive}
     return (
         <AuthContext.Provider value={info}>
             {children}            

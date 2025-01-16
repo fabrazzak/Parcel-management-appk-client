@@ -9,17 +9,16 @@ import { RxAvatar } from "react-icons/rx";
 import logo from "../../assets/logo.png"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "@/src/components/custom/ContextProvider";
+import { HomeIcon } from "lucide-react";
+import { AiOutlineLogin } from "react-icons/ai"
 
      
 const Header = () => {
-    const [isActive, setIsActive] = useState(() => localStorage.getItem('activePage') || 'home')
-   const {user,signOutUser}= useContext(AuthContext)
+ 
+   const {user,signOutUser,isActive,setIsActive}= useContext(AuthContext)
    const navigate = useNavigate();
 
 
-    useEffect(() => {
-        localStorage.setItem('activePage', isActive);
-    }, [isActive]);
 
 
     const logOutHandle = async () => {
@@ -49,7 +48,8 @@ const Header = () => {
                     <div className="hidden items-center gap-2 text-sm font-medium md:flex">
                     </div>
                     <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
-                        <NavLink onClick={() => setIsActive("home")} to="/" className={`hover:text-[#0B0B0B] font-bold  px-3 py-1 rounded-sm ${isActive == "home" && "bg-white text-[#0B0B0B]"} `} >
+                        <NavLink onClick={() => setIsActive("home")} to="/" className={`hover:text-[#0B0B0B] flex gap-1 font-bold  px-3 py-1 rounded-sm ${isActive == "home" && "bg-white text-[#0B0B0B]"} `} >
+                        <HomeIcon className="h-5 w-5" />
                             Home
                         </NavLink>
 
@@ -62,13 +62,13 @@ const Header = () => {
                                         <span className="sr-only">profile</span>
                                     </div>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-[300px] p-4 mt-4">
+                                <DropdownMenuContent className="w-[300px] p-4 mt-2">
                                     <DropdownMenuLabel>User Name</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>
-                                        <NavLink to='/dashboard' onClick={() => setIsActive("dashboard")} className={`font-bold   py-1 rounded-sm ${isActive == "dashboard" && "bg-[#0B0B0B] text-white w-full ps-3"} `}>Dashboard</NavLink> 
+                                        <NavLink to='/dashboard' onClick={() => setIsActive("dashboard")} className={`font-bold   py-1 rounded-sm ${isActive == "dashboard" && "bg-[#0B0B0B] text-white w-full ps-3"}  bg-white  text-[#0B0B0B] w-full hover:bg-[#0B0B0B] hover:text-white hover:ps-3`}>Dashboard</NavLink> 
                                     </DropdownMenuItem> <DropdownMenuItem>
-                                    <Button  onClick={() => {setIsActive("logout"),logOutHandle()}} className={`font-bold   py-1 rounded-sm ${isActive == "logout" && "bg-[#0B0B0B] text-white w-full ps-3"} `}>Logout</Button> 
+                                    <NavLink onClick={() => {logOutHandle()}} className={`font-bold   py-1 rounded-sm bg-white  text-[#0B0B0B] w-full hover:bg-[#0B0B0B] hover:text-white hover:ps-3 `}> Logout</NavLink> 
                                     </DropdownMenuItem>                                   
                                     
                                 </DropdownMenuContent>
@@ -76,7 +76,7 @@ const Header = () => {
                             </DropdownMenu>
                                 :
 
-                                <NavLink to='/login' onClick={() => setIsActive("login")} className={`hover:text-[#0B0B0B] font-bold  px-3 py-1 rounded-sm ${isActive == "login" && "bg-white text-[#0B0B0B]"} `}>Login</NavLink>
+                                <NavLink to='/login' onClick={() => setIsActive("login")} className={`hover:text-[#0B0B0B] items-center content-center flex gap-1 font-bold  px-3 py-1 rounded-sm ${isActive == "login" && "bg-white text-[#0B0B0B]"} `}> <AiOutlineLogin className="text-xl font-bold" /> Login</NavLink>
                         }
 
 
@@ -115,7 +115,7 @@ const Header = () => {
                                     <DropdownMenuItem>
                                         <NavLink to='/dashboard' onClick={() => setIsActive("dashboard")} className={`font-bold   py-1 rounded-sm ${isActive == "dashboard" && "bg-[#0B0B0B] text-white w-full ps-3"} `}>Dashboard</NavLink> 
                                     </DropdownMenuItem> <DropdownMenuItem>
-                                        <Button  onClick={() => {setIsActive("logout"),logOutHandle()}} className={`font-bold   py-1 rounded-sm ${isActive == "logout" && "bg-[#0B0B0B] text-white w-full ps-3"} `}>Logout</Button> 
+                                        <NavLink onClick={() => {logOutHandle()}} className={`font-bold flex justify-start border-none  py-1 rounded-sm  bg-white text-[#0B0B0B] w-full ps-0   `}>Logout</NavLink> 
                                     </DropdownMenuItem>                                   
                                     
                                 </DropdownMenuContent>
