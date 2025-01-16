@@ -1,0 +1,21 @@
+[
+    {
+      "name": "John Doe",
+      "image": "https://example.com/images/john_doe.jpg",
+      "parcelsDelivered": 320,
+      "averageRating": 4.9
+    },
+    {
+      "name": "Jane Smith",
+      "image": "https://example.com/images/jane_smith.jpg",
+      "parcelsDelivered": 280,
+      "averageRating": 4.8
+    },
+    {
+      "name": "Mark Johnson",
+      "image": "https://example.com/images/mark_johnson.jpg",
+      "parcelsDelivered": 250,
+      "averageRating": 4.7
+    }
+  ]
+  
