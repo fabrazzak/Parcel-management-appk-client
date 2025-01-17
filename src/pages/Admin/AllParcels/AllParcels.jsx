@@ -1,9 +1,10 @@
-import React from 'react';
+
 
 const AllParcels = () => {
+    
     return (
         <div>
-            <h2>this is all parcel </h2>
+            <h2>this is all parcel  </h2>
         </div>
     );
 };

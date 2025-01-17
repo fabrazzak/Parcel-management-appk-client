@@ -11,26 +11,28 @@ import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "@/src/components/custom/ContextProvider";
 import { HomeIcon } from "lucide-react";
 import { AiOutlineLogin } from "react-icons/ai"
+import useLoadUser from "@/src/hooks/useLoadUser";
 
-     
+
 const Header = () => {
- 
-   const {user,signOutUser,isActive,setIsActive}= useContext(AuthContext)
-   const navigate = useNavigate();
+
+    const { user, signOutUser, isActive, setIsActive } = useContext(AuthContext)
+    const navigate = useNavigate();
+    const [webUser] = useLoadUser()
 
 
 
 
     const logOutHandle = async () => {
         try {
-            await signOutUser(); 
-            navigate("/login"); 
+            await signOutUser();
+            navigate("/login");
         } catch (error) {
-            console.error("Logout failed:", error); 
-            
+            console.error("Logout failed:", error);
+
         }
     };
-    
+
 
 
 
@@ -49,7 +51,7 @@ const Header = () => {
                     </div>
                     <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
                         <NavLink onClick={() => setIsActive("home")} to="/" className={`hover:text-[#0B0B0B] flex gap-1 font-bold  px-3 py-1 rounded-sm ${isActive == "home" && "bg-white text-[#0B0B0B]"} `} >
-                        <HomeIcon className="h-5 w-5" />
+                            <HomeIcon className="h-5 w-5" />
                             Home
                         </NavLink>
 
@@ -57,8 +59,8 @@ const Header = () => {
                             user ? <DropdownMenu >
                                 <DropdownMenuTrigger asChild>
                                     <div size="icon" className="rounded-full   flex items-center ">
-                                        {user ?<img src={user?.photoURL} className="w-10 h-10 rounded-full cursor-pointer" /> :<RxAvatar className="text-2xl cursor-pointer" />}
-                                        
+                                        {user ? <img src={user?.photoURL} referrerPolicy="no-referrer" className="w-10 h-10 rounded-full cursor-pointer" /> : <RxAvatar className="text-2xl cursor-pointer" />}
+
                                         <span className="sr-only">profile</span>
                                     </div>
                                 </DropdownMenuTrigger>
@@ -66,11 +68,31 @@ const Header = () => {
                                     <DropdownMenuLabel>User Name</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>
-                                        <NavLink to='/dashboard' onClick={() => setIsActive("dashboard")} className={`font-bold   py-1 rounded-sm ${isActive == "dashboard" && "bg-[#0B0B0B] text-white w-full ps-3"}  bg-white  text-[#0B0B0B] w-full hover:bg-[#0B0B0B] hover:text-white hover:ps-3`}>Dashboard</NavLink> 
+                                        <NavLink  to={`${webUser?.role !== "admin"
+                                                    ? "/dashboard/all-parcels"
+                                                    : webUser?.role === "delivery-man"
+                                                        ? "/dashboard/my-delivery-list"
+                                                        : "dashboard/book-parcel"
+                                                }`}
+                                            onClick={() =>
+                                                setIsActive(
+                                                    webUser?.role === "admin"
+                                                        ? "all-parcels"
+                                                        : webUser?.role === "delivery-man"
+                                                            ? "my-delivery-list"
+                                                            : "book-parcel"
+                                                )
+                                            }
+                                            className={`font-bold py-1 rounded-sm ${isActive === "dashboard" && "bg-[#0B0B0B] text-white w-full ps-3"
+                                                } bg-white text-[#0B0B0B] w-full hover:bg-[#0B0B0B] hover:text-white hover:ps-3`}
+                                        >
+                                            Dashboard
+                                        </NavLink>
+
                                     </DropdownMenuItem> <DropdownMenuItem>
-                                    <NavLink onClick={() => {logOutHandle()}} className={`font-bold   py-1 rounded-sm bg-white  text-[#0B0B0B] w-full hover:bg-[#0B0B0B] hover:text-white hover:ps-3 `}> Logout</NavLink> 
-                                    </DropdownMenuItem>                                   
-                                    
+                                        <NavLink onClick={() => { logOutHandle() }} className={`font-bold   py-1 rounded-sm bg-white  text-[#0B0B0B] w-full hover:bg-[#0B0B0B] hover:text-white hover:ps-3 `}> Logout</NavLink>
+                                    </DropdownMenuItem>
+
                                 </DropdownMenuContent>
 
                             </DropdownMenu>
@@ -98,33 +120,52 @@ const Header = () => {
                         </SheetTrigger>
                         <SheetContent side="left" className="md:hidden">
                             <div className="grid gap-4 py-6">
-                                <NavLink onClick={() => setIsActive("home")} to="/" className={`text-[#0B0B0B]  font-bold ps-3  py-1 rounded-sm ${isActive == "home" ? "bg-[#0B0B0B] text-white " :""} `} >
+                                <NavLink onClick={() => setIsActive("home")} to="/" className={`text-[#0B0B0B]  font-bold ps-3  py-1 rounded-sm ${isActive == "home" ? "bg-[#0B0B0B] text-white " : ""} `} >
                                     Home
                                 </NavLink>
                                 {
-                            user ? <DropdownMenu >
-                                <DropdownMenuTrigger asChild>
-                                    <div size="icon" className="rounded-full   flex items-center ">
-                                    {user ?<img src={user?.photoURL} className="w-10 h-10 rounded-full cursor-pointer" /> :<RxAvatar className="text-2xl cursor-pointer" />}
-                                        <span className="sr-only">profile</span>
-                                    </div>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-[300px] p-4 mt-4">
-                                    <DropdownMenuLabel>User Name</DropdownMenuLabel>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>
-                                        <NavLink to='/dashboard' onClick={() => setIsActive("dashboard")} className={`font-bold   py-1 rounded-sm ${isActive == "dashboard" && "bg-[#0B0B0B] text-white w-full ps-3"} `}>Dashboard</NavLink> 
-                                    </DropdownMenuItem> <DropdownMenuItem>
-                                        <NavLink onClick={() => {logOutHandle()}} className={`font-bold flex justify-start border-none  py-1 rounded-sm  bg-white text-[#0B0B0B] w-full ps-0   `}>Logout</NavLink> 
-                                    </DropdownMenuItem>                                   
-                                    
-                                </DropdownMenuContent>
+                                    user ? <DropdownMenu >
+                                        <DropdownMenuTrigger asChild>
+                                            <div size="icon" className="rounded-full   flex items-center ">
+                                                {user ? <img src={user?.photoURL} className="w-10 h-10 rounded-full cursor-pointer" /> : <RxAvatar className="text-2xl cursor-pointer" />}
+                                                <span className="sr-only">profile</span>
+                                            </div>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-[300px] p-4 mt-4">
+                                            <DropdownMenuLabel>User Name</DropdownMenuLabel>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem>
+                                                <NavLink 
 
-                            </DropdownMenu>
-                                :
+                                                 to={`${webUser?.role == "admin"
+                                                    ? "/dashboard/all-parcels"
+                                                    : webUser?.role == "delivery-man"
+                                                        ? "/dashboard/my-delivery-list"
+                                                        : "dashboard/book-parcel"
+                                                }`}
+                                            onClick={() =>
+                                                setIsActive(
+                                                    webUser?.role === "admin"
+                                                        ? "all-parcels"
+                                                        : webUser?.role === "delivery-man"
+                                                            ? "my-delivery-list"
+                                                            : "book-parcel"
+                                                )
+                                            }                                               
+                                                
+                                                
+                                                className={`font-bold   py-1 rounded-sm ${isActive == "dashboard" && "bg-[#0B0B0B] text-white w-full ps-3"} `}>Dashboard</NavLink>
+                                            </DropdownMenuItem> <DropdownMenuItem>
+                                                <NavLink onClick={() => { logOutHandle() }} className={`font-bold flex justify-start border-none  py-1 rounded-sm  bg-white text-[#0B0B0B] w-full ps-0   `}>Logout</NavLink>
+                                            </DropdownMenuItem>
 
-                                <NavLink to='/login' onClick={() => setIsActive("login")} className={`text-[#0B0B0B] font-bold  px-3 py-1 rounded-sm ${isActive == "login" && "bg-[#0B0B0B] text-white"} `}>Login</NavLink>
-                        }
+                                        </DropdownMenuContent>
+
+                                    </DropdownMenu>
+                                        :
+
+                                        <NavLink to='/login' onClick={() => setIsActive("login")} className={`text-[#0B0B0B] font-bold  px-3 py-1 rounded-sm ${isActive == "login" && "bg-[#0B0B0B] text-white"} `}>Login</NavLink>
+                                }
                             </div>
                         </SheetContent>
                     </Sheet>

@@ -14,7 +14,7 @@ import { FaGoogle } from 'react-icons/fa';
 import { Separator } from '@/src/components/ui/separator';
 
 const SignUp = () => {
-  const { createUser, profileUpdate,loginWithGoogle } = useContext(AuthContext);
+  const { createUser, profileUpdate, loginWithGoogle } = useContext(AuthContext);
   const form = useForm();
   const axiosSecure = useAxiosSecures();
   const location = useLocation();
@@ -22,29 +22,36 @@ const SignUp = () => {
 
   const handleRegister = async (data) => {
     const { name, photoUrl, email, password } = data;
-    const userInfo = { displayName: name, photoURL: photoUrl,role:"user" };
+    const userInfo = { displayName: name, photoURL: photoUrl, role: "user" };
 
     try {
       const userCredential = await createUser(email, password);
       const result = userCredential.user;
-      if(result){
+      if (result) {
 
+
+        
         await axiosSecure.post('/users', { ...userInfo, email });
-        await profileUpdate(userInfo);
-  
+        Swal.fire({ title: "Account Created Successfully", icon: "success", draggable: true, timer: 1500 });
+        profileUpdate(userInfo)
+        .then(() => console.log("hello"))
+        .catch((error) => {
+          console.log(error)
+          // ...
+        });
         form.reset({
           name: "",
           photoUrl: "",
           email: "",
           password: "",
         });
-       
-        Swal.fire({ title: "Account Created Successfully", icon: "success", draggable: true ,timer: 1500});
+
+
         location?.state ? navigate(location?.state) : navigate("/");
 
       }
 
-  
+
     } catch (error) {
       Swal.fire({ icon: "error", title: "Oops...", text: error?.message });
     }
@@ -52,27 +59,27 @@ const SignUp = () => {
 
   const handleGoogleLogin = async () => {
     try {
-        const userCredential = await loginWithGoogle();
-        const result = userCredential?.user;  
-        if(result){
-            console.log(result);          
-           
-            const userInfo={
-                 displayName: result.displayName,
-                 photoURL: result.photoURL,
-                 email: result.email,
-                 role:"user"
-             }
-             Swal.fire({ title: "Account Login Successfully", icon: "success", draggable: true ,timer: 1500});
+      const userCredential = await loginWithGoogle();
+      const result = userCredential?.user;
+      if (result) {
+        console.log(result);
 
-             location?.state ? navigate(location?.state) : navigate("/");    
-             await axiosSecure.post('/users', {...userInfo });
-        }    
-    
+        const userInfo = {
+          displayName: result.displayName,
+          photoURL: result.photoURL,
+          email: result.email,
+          role: "user"
+        }
+        Swal.fire({ title: "Account Login Successfully", icon: "success", draggable: true, timer: 1500 });
+
+        location?.state ? navigate(location?.state) : navigate("/");
+        await axiosSecure.post('/users', { ...userInfo });
+      }
+
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
-};
+  };
 
   return (
     <div className="relative">
@@ -161,18 +168,19 @@ const SignUp = () => {
                 </Button>
               </form>
             </Form>
-             <Separator />
-             {/* Google Login Button */}
-                                    <Button
-                                        onClick={handleGoogleLogin}
-                                        className="w-full bg-[#9538E2] text-white hover:bg-gray-900 hover:text-white"
-                                        variant="outline"
-                                    >
-                                        Login with <FaGoogle className="text-[#FBBC05] ml-2" />oogle
-                                    </Button>
+            <Separator />
+            {/* Google Login Button */}
+            <Button
+              onClick={handleGoogleLogin}
+              className="w-full bg-[#9538E2] text-white hover:bg-gray-900 hover:text-white"
+              variant="outline"
+            >
+              Login with <FaGoogle className="text-[#FBBC05] ml-2" />oogle
+            </Button>
           </Card>
         </div>
       </div>
+
     </div>
   );
 };
