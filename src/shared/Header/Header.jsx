@@ -68,7 +68,7 @@ const Header = () => {
                                     <DropdownMenuLabel>User Name</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>
-                                        <NavLink  to={`${webUser?.role !== "admin"
+                                        <NavLink  to={`${webUser?.role == "admin"
                                                     ? "/dashboard/all-parcels"
                                                     : webUser?.role === "delivery-man"
                                                         ? "/dashboard/my-delivery-list"

@@ -7,18 +7,17 @@ const useLoadUser = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecures();
 
-  
   const { data: webUser = [], refetch } = useQuery({
     queryKey: ["userData", user?.email], 
     queryFn: async () => {
       if (!user?.email) return []; 
-      const response = await axiosSecure.get(`user/:${user.email}`);
+      const response = await axiosSecure.get(`user/${user.email}`); 
       return response.data;
     },
     enabled: !!user?.email, 
   });
 
- 
+  console.log(webUser);
 
   return [webUser, refetch];
 };

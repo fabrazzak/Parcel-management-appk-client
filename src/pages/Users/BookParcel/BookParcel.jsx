@@ -1,225 +1,313 @@
-import { useState, useContext } from "react";
-import { AuthContext } from "@/src/components/custom/ContextProvider";
-import { Input } from "@/src/components/ui/input";
-import { Label } from "@/src/components/ui/label";
-import { Textarea } from "@/src/components/ui/textarea";
 import { Button } from "@/src/components/ui/button";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { useForm, Controller } from "react-hook-form";
-import { Form } from "react-router-dom";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/src/components/ui/form";
+import { Calendar } from "@/src/components/ui/calendar";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/src/components/ui/form";
+import { Input } from "@/src/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/src/components/ui/popover";
+import { Textarea } from "@/src/components/ui/textarea";
+
+import { useForm } from "react-hook-form";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import useLoadUser from "@/src/hooks/useLoadUser";
 
 const BookParcel = () => {
-  const { user } = useContext(AuthContext); // Get logged-in user data
-  const form = useForm(); // Initialize react-hook-form
-  const [deliveryDate, setDeliveryDate] = useState(new Date());
+    const [webUser, refetch] = useLoadUser()
+    const form = useForm();
 
-  const handleFormSubmit = (data) => {
-    console.log(data);
-  };
+    const handleFormSubmits = (data) => {
 
-  return (
-    <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 flex items-center justify-center">
-      <div className="max-w-4xl w-full p-8 bg-white rounded-2xl shadow-2xl">
-        <h1 className="text-3xl font-extrabold text-center text-purple-600 mb-8">
-          Book a Parcel
-        </h1>
+        const parcelWeightInt = parseInt(data.parcelWeight);
+        let price;
+        if (parcelWeightInt <= 1) {
+            price = 50
+        }
+        else if (parcelWeightInt <= 2) {
+            price = 100;
+        }
+        else {
+            price = 150;
+        }
 
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleFormSubmit)}
-            className="space-y-8"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Name */}
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        value={user?.name || ""}
-                        {...field}
-                        readOnly
-                        disabled
-                        className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+        const parcelInfo = {
+            ...data,
+            price,
+            name:webUser?.displayName,
+            email:webUser?.email,
+            userId:webUser?._id,
+            status:"pending"
+        }
+        refetch()
 
-              {/* Email */}
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        value={user?.email || ""}
-                        {...field}
-                        readOnly
-                        disabled
-                        className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
 
-              {/* Phone Number */}
-              <FormField
-                control={form.control}
-                name="phoneNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="tel"
-                        placeholder="Enter your phone number"
-                        className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+        console.log(webUser,parcelInfo)
 
-              {/* Parcel Type */}
-              <FormField
-                control={form.control}
-                name="parcelType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Parcel Type</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Enter parcel type"
-                        className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+    };
 
-              {/* Parcel Weight */}
-              <FormField
-                control={form.control}
-                name="parcelWeight"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Parcel Weight (kg)</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="number"
-                        placeholder="Enter parcel weight"
-                        className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
 
-              {/* Receiver's Name */}
-              <FormField
-                control={form.control}
-                name="receiverName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Receiver’s Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Enter receiver's name"
-                        className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+    return (
+        <div className="  flex items-center justify-center">
+            <div className=" w-full p-8 bg-white rounded-2xl shadow-2xl">
+                <h1 className="text-3xl font-extrabold text-center text-purple-600 mb-8">
+                    Book a Parcel
+                </h1>
 
-              {/* Receiver's Phone Number */}
-              <FormField
-                control={form.control}
-                name="receiverPhone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Receiver's Phone Number</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="tel"
-                        placeholder="Enter receiver's phone number"
-                        className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+                <Form {...form}>
+                    <form className=" grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={form.handleSubmit(handleFormSubmits)}>
+                        {/* Name Field */}
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Name</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="text"                                           
+                                            placeholder={webUser?.displayName}
+                                            {...field}
+                                            className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
+                                            readOnly
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-              {/* Parcel Delivery Address */}
-              <FormField
-                control={form.control}
-                name="deliveryAddress"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Parcel Delivery Address</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder="Enter the delivery address"
-                        className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+                        {/* Email Field */}
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input type="email"
+                                            className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
+                                            placeholder={webUser?.email} {...field} readOnly />
+                                            
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-              {/* Requested Delivery Date */}
-              <FormField
-                control={form.control}
-                name="deliveryDate"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Requested Delivery Date</FormLabel>
-                    <FormControl>
-                      <DatePicker
-                        selected={deliveryDate}
-                        onChange={(date) => setDeliveryDate(date)}
-                        dateFormat="MMMM d, yyyy"
-                        className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+                        {/* phoneNumberField */}
+                        <FormField
+                            control={form.control}
+                            name="phoneNumber"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Phone Number</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            type="tel"
+                                            placeholder="Enter your phone number"
+                                            className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Parcel Type */}
+                        <FormField
+                            control={form.control}
+                            name="parcelType"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Parcel Type</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            placeholder="Enter parcel type"
+                                            className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Parcel Weight */}
+                        <FormField
+                            control={form.control}
+                            name="parcelWeight"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Parcel Weight (kg)</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            type="number"
+                                            placeholder="Enter parcel weight"
+                                            className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Receiver's Name */}
+                        <FormField
+                            control={form.control}
+                            name="receiverName"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Receiver’s Name</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            placeholder="Enter receiver's name"
+                                            className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Receiver's Phone Number */}
+                        <FormField
+                            control={form.control}
+                            name="receiverPhone"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Receiver's Phone Number</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            type="tel"
+                                            placeholder="Enter receiver's phone number"
+                                            className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+
+                        {/* Requested Delivery Date */}
+                        <div className="w-full">
+                            <FormField
+                                control={form.control}
+                                name="deliveryDate"
+                                render={({ field }) => (
+                                    <FormItem
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            justifyContent: "flex-start",
+                                            gap: "4px",
+                                            with: "100%"
+                                        }}
+                                    >
+                                        <FormLabel >
+                                            Requested Delivery Date
+                                        </FormLabel>
+
+                                        <Popover>
+                                            <PopoverTrigger>
+                                                <FormControl >
+                                                    <Button
+                                                        variant="outline"
+                                                        className=" flex   w-[300px]   p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
+                                                    >
+                                                        <CalendarIcon className="mr-2  " />
+                                                        {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-auto p-0" align="start">
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={field.value}
+                                                    onSelect={field.onChange}
+                                                    // disabled={(date) =>
+                                                    //   date > new Date() || date < new Date("1900-01-01")
+                                                    // }
+                                                    initialFocus
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+
+                        {/* Latitude Field */}
+                        <FormField
+                            control={form.control}
+                            name="latitude"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Latitude</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            type="text"
+                                            placeholder="Enter latitude"
+                                            className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Longitude Field */}
+                        <FormField
+                            control={form.control}
+                            name="longitude"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Longitude</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            type="text"
+                                            placeholder="Enter longitude"
+                                            className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+
+
+                        {/* Parcel Delivery Address */}
+                        <div className="lg:col-span-2">
+                            <FormField
+                                control={form.control}
+                                name="deliveryAddress"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Parcel Delivery Address</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                {...field}
+                                                placeholder="Enter the delivery address"
+                                                className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+
+
+                        {/* Submit Button */}
+                        <Button type="submit" className="w-full lg:col-span-2   bg-[#9538E2]">
+                            Submit
+                        </Button>
+                    </form>
+                </Form>
+
             </div>
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full p-4 mt-8 rounded-lg bg-purple-600 text-white text-xl font-bold hover:bg-purple-700"
-            >
-              Book Parcel
-            </Button>
-          </form>
-        </Form>
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default BookParcel;

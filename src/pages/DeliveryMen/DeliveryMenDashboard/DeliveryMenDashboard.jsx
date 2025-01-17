@@ -10,9 +10,9 @@ import { DeliveryListIcon, GlobeIcon, HomeIcon, MenuIcon, ReviewIcon } from '@/s
 const DeliveryMenDashboard = () => {
   const { user, signOutUser, isActive, setIsActive } = useContext(AuthContext)
   return (
-    <div className="flex h-screen w-full">
-      <div className="hidden lg:block lg:w-64 lg:shrink-0 lg:border-r lg:bg-[#9538E2] text-white">
-        <div className="flex h-full flex-col justify-between py-6 px-4">
+    <div className="flex  w-full">
+      <div className="hidden lg:block lg:w-64 lg:shrink-0 lg:border-r bg-[#9538E2] text-white">
+        <div className="sticky top-0 flex h-screen flex-col justify-between py-6 px-4">
           <div className="space-y-6">
             <Link href="#" className="flex items-center gap-2 font-bold" prefetch={false}>
               <img className='w-16 h-16 rounded-full' src={logo} />
