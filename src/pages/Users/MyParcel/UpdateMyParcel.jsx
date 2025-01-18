@@ -28,7 +28,7 @@ import { useEffect, useState } from "react";
 
 const UpdateMyParcel = () => {
   const { id } = useParams(); // Get the parcel ID from the URL
-  const { myParcels } = useBookParcel(); // Load parcels
+  const { myParcels,refetch} = useBookParcel(); // Load parcels
   const [parcel, setParcel] = useState(null); // State to store the parcel details
   const navigate=useNavigate()
 
@@ -38,7 +38,7 @@ const UpdateMyParcel = () => {
     setParcel(filterParcel);
   }, [id, myParcels]);
 
-  const [webUser, refetch] = useLoadUser();
+  const [webUser] = useLoadUser();
   const form = useForm({
     values: {
       name: webUser?.displayName || "",
@@ -77,8 +77,9 @@ const UpdateMyParcel = () => {
     try {
       const response = await axiosSecure.put("update-book-parcel", { ...parcelInfo  });
       
-      if (response.status==200) {
-        navigate(-1)
+      if (response.status==200) {       
+          
+        
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -86,6 +87,8 @@ const UpdateMyParcel = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        refetch()
+        navigate(-1)
       }
     } catch (error) {
       Swal.fire({

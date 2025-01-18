@@ -59,20 +59,20 @@ const Header = () => {
                             user ? <DropdownMenu >
                                 <DropdownMenuTrigger asChild>
                                     <div size="icon" className="rounded-full   flex items-center ">
-                                        {user ? <img src={user?.photoURL} referrerPolicy="no-referrer" className="w-10 h-10 rounded-full cursor-pointer" /> : <RxAvatar className="text-2xl cursor-pointer" />}
+                                        {webUser ? <img src={webUser?.photoURL} referrerPolicy="no-referrer" className="w-10 h-10 rounded-full cursor-pointer" /> : <RxAvatar className="text-2xl cursor-pointer" />}
 
                                         <span className="sr-only">profile</span>
                                     </div>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="w-[300px] p-4 mt-2">
-                                    <DropdownMenuLabel>User Name</DropdownMenuLabel>
+                                    <DropdownMenuLabel>{webUser?.displayName}</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>
                                         <NavLink  to={`${webUser?.role == "admin"
                                                     ? "/dashboard/all-parcels"
                                                     : webUser?.role === "delivery-man"
                                                         ? "/dashboard/my-delivery-list"
-                                                        : "dashboard/book-parcel"
+                                                        : "/dashboard/book-parcel"
                                                 }`}
                                             onClick={() =>
                                                 setIsActive(
@@ -127,7 +127,7 @@ const Header = () => {
                                     user ? <DropdownMenu >
                                         <DropdownMenuTrigger asChild>
                                             <div size="icon" className="rounded-full   flex items-center ">
-                                                {user ? <img src={user?.photoURL} className="w-10 h-10 rounded-full cursor-pointer" /> : <RxAvatar className="text-2xl cursor-pointer" />}
+                                                {webUser ? <img src={webUser?.photoURL} className="w-10 h-10 rounded-full cursor-pointer" /> : <RxAvatar className="text-2xl cursor-pointer" />}
                                                 <span className="sr-only">profile</span>
                                             </div>
                                         </DropdownMenuTrigger>

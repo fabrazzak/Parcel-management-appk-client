@@ -11,9 +11,12 @@ import { format } from "date-fns";
 import useLoadUser from "@/src/hooks/useLoadUser";
 import useAxiosSecures from "@/src/hooks/useAxiosSecures";
 import Swal from "sweetalert2";
+import useBookParcel from "@/src/hooks/useBookParcel";
 
 const BookParcel = () => {
-    const [webUser, refetch] = useLoadUser()
+    const [webUser] = useLoadUser()
+    const { myParcels,refetch } = useBookParcel(); 
+
     const form = useForm();
     const axiosSecure = useAxiosSecures()
 
@@ -41,6 +44,7 @@ const BookParcel = () => {
             status: "pending"
         }
         refetch()
+       
 
         try {
             const response = await axiosSecure.post("book-parcel", { ...parcelInfo })

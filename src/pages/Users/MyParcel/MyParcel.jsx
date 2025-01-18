@@ -3,13 +3,12 @@ import { Button } from "@/src/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/src/components/ui/select";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from "@/src/components/ui/alert-dialog";
 import useBookParcel from "@/src/hooks/useBookParcel";
-import Loading from "@/src/components/custom/Loading/Loading";
 import useAxiosSecures from "@/src/hooks/useAxiosSecures";
-import NotFound from "../../NotFound/NotFound";
 import { Link } from "react-router-dom";
+import Loading from "@/src/components/custom/Loading/Loading";
 
 const MyParcel = () => {
-    const { myParcels, refetch,isLoading,isPending }=useBookParcel()
+  const { myParcels, refetch,isLoading,isPending }=useBookParcel()
   const [parcels, setParcels] = useState([...myParcels]);
   const [filteredStatus, setFilteredStatus] = useState("all");
   const [showAlert, setShowAlert] = useState(false);
@@ -19,13 +18,10 @@ const MyParcel = () => {
   const axiosSecure=useAxiosSecures()
 
   useEffect(() => {     
-    setParcels(myParcels);
-  }, [refetch()]);
-
-  const handleUpdate = (parcelId) => {
-    console.log(`Update parcel with ID: ${parcelId}`);
-    closeDropdown(parcelId);
-  };
+    setParcels([...myParcels]);
+   
+  }, [myParcels]);
+  
 
   const handleCancel = (parcelId) => {
     setShowAlert(true);
@@ -35,14 +31,10 @@ const MyParcel = () => {
 
   const handleConfirmCancel = async () => {
 
-    await axiosSecure.put("book-parcel",{id:selectedParcel,bookingStatus:"canceled"})
-    refetch()
+    await axiosSecure.put("book-parcel",{id:selectedParcel,bookingStatus:"canceled"})  
 
-    setParcels((prev) =>
-      prev.map((parcel) =>
-        parcel.id === selectedParcel ? { ...parcel, status: "canceled" } : parcel
-      )
-    );
+  
+    refetch()
     setShowAlert(false);
   };
 
@@ -73,7 +65,8 @@ const MyParcel = () => {
     filteredStatus === "all" || parcel.status === filteredStatus
   );
  
-  if(isLoading){
+ 
+  if(isPending){   
     return <Loading></Loading>
   }
  
@@ -84,7 +77,7 @@ const MyParcel = () => {
             <div className="container mx-auto p-8 rounded-lg shadow-lg bg-white">
       <h1 className="text-4xl font-semibold mb-6 text-[#9538E2]">My Parcels</h1>
 
-      <Select value={filteredStatus} onValueChange={handleFilterChange} className="mb-4 w-full max-w-xs border-2 border-[#9538E2] rounded-md shadow-md">
+      <Select value={filteredStatus?.toUpperCase()} onValueChange={handleFilterChange} className="mb-4 capitalize w-full max-w-xs border-2 border-[#9538E2] rounded-md shadow-md">
         <SelectTrigger className="bg-transparent text-[#9538E2] text-lg font-medium px-4 py-2 rounded-md focus:ring-2 focus:ring-[#9538E2]">
           {filteredStatus === "all" ? "All Statuses" : filteredStatus}
         </SelectTrigger>

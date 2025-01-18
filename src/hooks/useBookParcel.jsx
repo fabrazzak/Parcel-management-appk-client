@@ -7,20 +7,20 @@ const useBookParcel = () => {
   const axiosSecure = useAxiosSecures();
   const [webUser] = useLoadUser();
 
-  const { data: myParcels = [], refetch, isLoading, error,isPending } = useQuery({
+  const { data: myParcels = [],refetch, isLoading, error,isPending } = useQuery({
     queryKey: ["my-parcel", webUser?.email],
     queryFn: async () => {
       if (!webUser?.email) {
-        return []; // If email is not available, return an empty array
+        return []; 
       }
-      const response = await axiosSecure.get(`book-parcels/${webUser?.email}`);
+      const response = await axiosSecure.get(`book-parcels/${webUser?.email}`);  
       
       return response.data;
     },
-    enabled: !!webUser?.email, // Only fetch if the user is logged in
+    enabled: !!webUser?.email,
   });
 
-  return { myParcels, refetch, isLoading, error,isPending };
+  return { myParcels, refetch , isLoading, error,isPending };
 };
 
 export default useBookParcel;
