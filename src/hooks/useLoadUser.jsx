@@ -17,7 +17,7 @@ const useLoadUser = () => {
     enabled: !!user?.email, 
   });
 
-  console.log(webUser);
+ 
 
   return [webUser, refetch];
 };

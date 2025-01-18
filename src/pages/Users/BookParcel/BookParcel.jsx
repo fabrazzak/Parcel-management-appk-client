@@ -9,12 +9,15 @@ import { useForm } from "react-hook-form";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import useLoadUser from "@/src/hooks/useLoadUser";
+import useAxiosSecures from "@/src/hooks/useAxiosSecures";
+import Swal from "sweetalert2";
 
 const BookParcel = () => {
     const [webUser, refetch] = useLoadUser()
     const form = useForm();
+    const axiosSecure = useAxiosSecures()
 
-    const handleFormSubmits = (data) => {
+    const handleFormSubmits = async (data) => {
 
         const parcelWeightInt = parseInt(data.parcelWeight);
         let price;
@@ -31,15 +34,42 @@ const BookParcel = () => {
         const parcelInfo = {
             ...data,
             price,
-            name:webUser?.displayName,
-            email:webUser?.email,
-            userId:webUser?._id,
-            status:"pending"
+            name: webUser?.displayName,
+            email: webUser?.email,
+            bookingDate: new Date(),
+            userId: webUser?._id,
+            status: "pending"
         }
         refetch()
 
+        try {
+            const response = await axiosSecure.post("book-parcel", { ...parcelInfo })
+            console.log(parcelInfo)
 
-        console.log(webUser,parcelInfo)
+            if (response.data.acknowledged) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your parcel is book successfully",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
+            }
+
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${error.message}`,
+                footer: '<a href="#">Why do I have this issue?</a>'
+            });
+
+        }
+
+
+
+
 
     };
 
@@ -62,7 +92,7 @@ const BookParcel = () => {
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
                                         <Input
-                                            type="text"                                           
+                                            type="text"
                                             placeholder={webUser?.displayName}
                                             {...field}
                                             className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
@@ -85,7 +115,7 @@ const BookParcel = () => {
                                         <Input type="email"
                                             className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
                                             placeholder={webUser?.email} {...field} readOnly />
-                                            
+
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -103,6 +133,7 @@ const BookParcel = () => {
                                         <Input
                                             {...field}
                                             type="tel"
+                                            required
                                             placeholder="Enter your phone number"
                                             className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
                                         />
@@ -121,6 +152,7 @@ const BookParcel = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            required
                                             placeholder="Enter parcel type"
                                             className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
                                         />
@@ -139,6 +171,7 @@ const BookParcel = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            required
                                             type="number"
                                             placeholder="Enter parcel weight"
                                             className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
@@ -158,6 +191,7 @@ const BookParcel = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            required
                                             placeholder="Enter receiver's name"
                                             className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
                                         />
@@ -176,6 +210,7 @@ const BookParcel = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            required
                                             type="tel"
                                             placeholder="Enter receiver's phone number"
                                             className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
@@ -190,6 +225,7 @@ const BookParcel = () => {
                         <div className="w-full">
                             <FormField
                                 control={form.control}
+                                rules={{ required: "Delivery Date is required" }}
                                 name="deliveryDate"
                                 render={({ field }) => (
                                     <FormItem
@@ -208,7 +244,7 @@ const BookParcel = () => {
                                         <Popover>
                                             <PopoverTrigger>
                                                 <FormControl >
-                                                    <Button
+                                                    <Button type="button"
                                                         variant="outline"
                                                         className=" flex   w-[300px]   p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
                                                     >
@@ -222,9 +258,9 @@ const BookParcel = () => {
                                                     mode="single"
                                                     selected={field.value}
                                                     onSelect={field.onChange}
-                                                    // disabled={(date) =>
-                                                    //   date > new Date() || date < new Date("1900-01-01")
-                                                    // }
+                                                    disabled={(date) =>
+                                                        date < new Date().setHours(0, 0, 0, 0) // Disable all dates before today
+                                                    }
                                                     initialFocus
                                                 />
                                             </PopoverContent>

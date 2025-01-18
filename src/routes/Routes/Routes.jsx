@@ -14,6 +14,7 @@ import NotFound from "@/src/pages/NotFound/NotFound";
 import SignUp from "@/src/pages/SignUp/SignUp";
 import BookParcel from "@/src/pages/Users/BookParcel/BookParcel";
 import MyParcel from "@/src/pages/Users/MyParcel/MyParcel";
+import UpdateMyParcel from "@/src/pages/Users/MyParcel/UpdateMyParcel";
 import MyProfile from "@/src/pages/Users/MyProfile/MyProfile";
 import UserDashboard from "@/src/pages/Users/UserDashboard/UserDashboard";
 import {
@@ -54,6 +55,9 @@ import {
       },{
         path:"my-parcels",
         element:<MyParcel></MyParcel>
+      },{
+        path:"my-parcels/:id",
+        element:<UpdateMyParcel></UpdateMyParcel>
       },{
         path:"my-profile",
         element:<MyProfile></MyProfile>
