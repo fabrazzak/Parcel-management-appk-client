@@ -21,6 +21,7 @@ const AllUsers = () => {
         queryFn: async () => {
             const res = await axiosSecure.get(`/users?page=${currentPage + 1}&limit=5`);
             setPageCount(Math.ceil(res.data.users / 5));
+            console.log(res.data)
             return res.data;
         },
         onError: (error) => {
@@ -105,26 +106,24 @@ const AllUsers = () => {
                     <TableHeader>
                         <TableRow className="bg-[#9538E2] divide-x-2 divide-gray-200 text-white hover:bg-[#9538E2]">
                             <TableCell className="text-sm font-bold text-white   px-4 py-3 sm:px-6">Name</TableCell>
-                            <TableCell className="text-sm font-bold text-white  px-4 py-3 sm:px-6">Email</TableCell>
-                            <TableCell className="text-sm font-bold text-white  px-4 py-3 sm:px-6">Role</TableCell>
+                            <TableCell className="text-sm font-bold text-white  px-4 py-3 sm:px-6">Phone Number</TableCell>
+                            <TableCell className="text-sm font-bold text-white  px-4 py-3 sm:px-6">No. of P. Booked</TableCell>
+                            <TableCell className="text-sm font-bold text-white  px-4 py-3 sm:px-6">Total Spent</TableCell>
                             <TableCell className="text-sm font-bold text-white  text-center px-4 py-3 sm:px-6">Admin</TableCell>
                             <TableCell className="text-sm font-bold text-white  text-center px-4 py-3 sm:px-6">Delivery Man</TableCell>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {data?.users.map((user, index) => (
+                        {data?.users?.map((user, index) => (
                             <TableRow key={index} className="hover:bg-gray-50 divide-x-2 divide-gray-200 transition-colors">
                                 <TableCell className="px-4 py-3 sm:px-6 font-medium text-gray-800">{user.displayName}</TableCell>
-                                <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user.email}</TableCell>
+                                <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user?.phoneNumber }</TableCell>
                                 <TableCell
-                                    className={`px-4 py-3 sm:px-6 capitalize font-semibold ${user?.role === "admin"
-                                            ? "text-red-600"
-                                            : user?.role === "delivery-man"
-                                                ? "text-purple-600"
-                                                : "text-blue-600"
-                                        }`}
-                                >
-                                    {user.role}
+                                    className='px-4 py-3 sm:px-6 capitalize font-semibold' >
+                                    {user?.parcelsBooked}
+                                </TableCell> <TableCell
+                                    className='px-4 py-3 sm:px-6 capitalize font-semibold' >
+                                    {user?.totalSpentAmount}
                                 </TableCell>
                                 <TableCell className="px-4 py-3 sm:px-6 text-center">
                                     <Button
@@ -165,7 +164,7 @@ const AllUsers = () => {
                                     onClick={() => handlePageClick(index)}
                                     href="#"
                                     isActive={index === currentPage}
-                                    className="text-white bg-purple-600 hover:bg-purple-700 rounded-full w-8 h-8 flex justify-center items-center"
+                                    className={`text-white  rounded-full w-8 h-8 flex justify-center items-center ${ index === currentPage ? "bg-gray-900 text-white hover:bg-purple-700 ":"bg-purple-600 hover:bg-purple-700"}`}
                                 >
                                     {index + 1}
                                 </PaginationLink>

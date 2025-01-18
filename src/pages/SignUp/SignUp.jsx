@@ -21,8 +21,8 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const handleRegister = async (data) => {
-    const { name, photoUrl, email, password } = data;
-    const userInfo = { displayName: name, photoURL: photoUrl, role: "user" };
+    const { name, photoUrl, email, password,phoneNumber } = data;
+    const userInfo = { displayName: name, photoURL: photoUrl, role: "user" ,phoneNumber};
 
     try {
       const userCredential = await createUser(email, password);
@@ -30,15 +30,15 @@ const SignUp = () => {
       if (result) {
 
 
-        
+
         await axiosSecure.post('/users', { ...userInfo, email });
         Swal.fire({ title: "Account Created Successfully", icon: "success", draggable: true, timer: 1500 });
         profileUpdate(userInfo)
-        .then(() => console.log("hello"))
-        .catch((error) => {
-          console.log(error)
-          // ...
-        });
+          .then(() => console.log("hello"))
+          .catch((error) => {
+            console.log(error)
+            // ...
+          });
         form.reset({
           name: "",
           photoUrl: "",
@@ -107,13 +107,27 @@ const SignUp = () => {
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input type="text" placeholder="Type your Name" {...field} />
+                        <Input type="text" required placeholder="Type your Name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
 
+
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Photo URL</FormLabel>
+                      <FormControl>
+                        <Input type="text" required placeholder="Type your Phone Number" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 {/* Photo URL Field */}
                 <FormField
                   control={form.control}
@@ -122,12 +136,14 @@ const SignUp = () => {
                     <FormItem>
                       <FormLabel>Photo URL</FormLabel>
                       <FormControl>
-                        <Input type="text" placeholder="Type your Photo URL" {...field} />
+                        <Input type="text" required placeholder="Type your Photo URL" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> {/* Phone Number Field */}
+
+
 
                 {/* Email Field */}
                 <FormField
@@ -137,7 +153,7 @@ const SignUp = () => {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="Type your Email" {...field} />
+                        <Input type="email" required placeholder="Type your Email" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -152,7 +168,7 @@ const SignUp = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="Type your Password" {...field} />
+                        <Input type="password" required  placeholder="Type your Password" {...field} />
                       </FormControl>
                       <FormLabel>
                         Already have an account? <Link to="/login" className="text-[#9538E2]">Login here</Link>

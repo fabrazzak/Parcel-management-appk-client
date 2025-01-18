@@ -16,11 +16,11 @@ const AllDeliveryMen = () => {
     const [webUser] = useLoadUser();
     const axiosSecure = useAxiosSecures();
 
-    const { data, refetch, isPending } = useQuery({
+    const { data, refetch, isPending,isLoading } = useQuery({
         queryKey: ["users", currentPage],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/users?page=${currentPage + 1}&limit=5`);
-            setPageCount(Math.ceil(res.data.users / 5));
+            const res = await axiosSecure.get(`/delivery-man?page=${currentPage + 1}&limit=5`);
+            setPageCount(Math.ceil(res.data.deliveryMan / 5));
             return res.data;
         },
         onError: (error) => {
@@ -84,7 +84,7 @@ const AllDeliveryMen = () => {
         }
     };
 
-    if (isPending) {
+    if (isLoading) {
         return <Loading />;
     }
 
@@ -95,7 +95,7 @@ const AllDeliveryMen = () => {
                     Delivery Man Management
                 </h1>
                 <h3 className="text-xl font-semibold text-[#9538E2]">
-                    Total Delivery Man : {data?.totalUsers}
+                    Total Delivery Man : {data?.totalDeliveryMan}
                 </h3>
             </div>
 
@@ -105,17 +105,16 @@ const AllDeliveryMen = () => {
                     <TableHeader>
                         <TableRow className="bg-[#9538E2] divide-x-2 divide-gray-200 text-white hover:bg-[#9538E2]">
                             <TableCell className="text-sm font-bold text-white   px-4 py-3 sm:px-6">Name</TableCell>
-                            <TableCell className="text-sm font-bold text-white  px-4 py-3 sm:px-6">Email</TableCell>
-                            <TableCell className="text-sm font-bold text-white  px-4 py-3 sm:px-6">Role</TableCell>
-                            <TableCell className="text-sm font-bold text-white  text-center px-4 py-3 sm:px-6">Admin</TableCell>
-                            <TableCell className="text-sm font-bold text-white  text-center px-4 py-3 sm:px-6">Delivery Man</TableCell>
+                            <TableCell className="text-sm font-bold text-white  px-4 py-3 sm:px-6">Phone Number</TableCell>
+                            <TableCell className="text-sm font-bold text-white  px-4 py-3 sm:px-6">Number of parcels delivered</TableCell>
+                            <TableCell className="text-sm font-bold text-white  text-center px-4 py-3 sm:px-6">Average review</TableCell>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {data?.users.map((user, index) => (
+                        {data?.deliveryMan?.map((user, index) => (
                             <TableRow key={index} className="hover:bg-gray-50 divide-x-2 divide-gray-200 transition-colors">
                                 <TableCell className="px-4 py-3 sm:px-6 font-medium text-gray-800">{user.displayName}</TableCell>
-                                <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user.email}</TableCell>
+                                <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user?.phoneNumber} x will do</TableCell>
                                 <TableCell
                                     className={`px-4 py-3 sm:px-6 capitalize font-semibold ${user?.role === "admin"
                                             ? "text-red-600"
@@ -124,28 +123,12 @@ const AllDeliveryMen = () => {
                                                 : "text-blue-600"
                                         }`}
                                 >
-                                    {user.role}
+                                    {/* {user.role} */} xxx Willl do
                                 </TableCell>
-                                <TableCell className="px-4 py-3 sm:px-6 text-center">
-                                    <Button
-                                        className={`text-white ${user.role === "admin"
-                                                ? "hover:bg-red-600 bg-red-500"
-                                                : "hover:bg-indigo-700 bg-indigo-600"
-                                            }`}
-                                        onClick={() => handleRoleChange(user.email, user.role === "admin" ? "user" : "admin")}
-                                    >
-                                        {user.role === "admin" ? "Remove Admin" : "Make Admin"}
-                                    </Button>
+                                <TableCell className="px-4 py-3 sm:px-6 text-center">                                   
+                                       xxxx will do                                   
                                 </TableCell>
-                                <TableCell className="px-4 py-3 sm:px-6 text-center">
-                                    <Button
-                                        className={`text-white ${user.role === "delivery-man" ? "hover:bg-red-600 bg-red-500" : "hover:bg-purple-700 bg-purple-600"
-                                            }`}
-                                        onClick={() => handleRoleChange(user.email, user.role === "delivery-man" ? "user" : "delivery-man")}
-                                    >
-                                        {user.role === "delivery-man" ? "Remove Delivery Man" : "Make Delivery Man"}
-                                    </Button>
-                                </TableCell>
+                              
                             </TableRow>
                         ))}
                     </TableBody>
@@ -165,7 +148,7 @@ const AllDeliveryMen = () => {
                                     onClick={() => handlePageClick(index)}
                                     href="#"
                                     isActive={index === currentPage}
-                                    className="text-white bg-purple-600 hover:bg-purple-700 rounded-full w-8 h-8 flex justify-center items-center"
+                                    className={`text-white  rounded-full w-8 h-8 flex justify-center items-center ${ index === currentPage ? "bg-gray-900 text-white hover:bg-purple-700 ":"bg-purple-600 hover:bg-purple-700"}`}
                                 >
                                     {index + 1}
                                 </PaginationLink>
