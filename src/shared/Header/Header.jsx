@@ -69,7 +69,7 @@ const Header = () => {
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>
                                         <NavLink  to={`${webUser?.role == "admin"
-                                                    ? "/dashboard/all-parcels"
+                                                    ? "/dashboard/statistics"
                                                     : webUser?.role === "delivery-man"
                                                         ? "/dashboard/my-delivery-list"
                                                         : "/dashboard/book-parcel"
@@ -77,7 +77,7 @@ const Header = () => {
                                             onClick={() =>
                                                 setIsActive(
                                                     webUser?.role === "admin"
-                                                        ? "all-parcels"
+                                                        ? "statistics"
                                                         : webUser?.role === "delivery-man"
                                                             ? "my-delivery-list"
                                                             : "book-parcel"

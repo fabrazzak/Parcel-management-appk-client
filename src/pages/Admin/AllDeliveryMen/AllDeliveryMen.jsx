@@ -1,70 +1,13 @@
-import { AuthContext } from "@/src/components/custom/ContextProvider";
+
 import Loading from "@/src/components/custom/Loading/Loading";
-import { Button } from "@/src/components/ui/button";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/src/components/ui/pagination";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "@/src/components/ui/table";
-import useAxiosSecures from "@/src/hooks/useAxiosSecures";
-import useLoadUser from "@/src/hooks/useLoadUser";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import useAllDeliveryman from "@/src/hooks/useAllDeliveryman";
 import { toast, ToastContainer } from "react-toastify";
-import Swal from "sweetalert2";
 
 const AllDeliveryMen = () => {
-    const [currentPage, setCurrentPage] = useState(0);
-    const [pageCount, setPageCount] = useState(0);
-    const [webUser] = useLoadUser();
-    const axiosSecure = useAxiosSecures();
-
-    const { data, refetch, isPending,isLoading } = useQuery({
-        queryKey: ["users", currentPage],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/delivery-man?page=${currentPage + 1}&limit=5`);
-            setPageCount(Math.ceil(res.data.deliveryMan / 5));
-            return res.data;
-        },
-        onError: (error) => {
-            console.error("Error fetching users:", error);
-        },
-    });
-
-    const handleRoleChange = async (email, role) => {
-        try {
-            if (role === "user") {
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: `If you remove it, this user will be a normal ${role}.`,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!",
-                }).then(async (result) => {
-                    if (result.isConfirmed) {
-                        await axiosSecure.put('/users', { email, role });
-                        refetch();
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: `Your ${role} role has been removed.`,
-                            icon: "success",
-                        });
-                    }
-                });
-            } else {
-                await axiosSecure.put('/users', { email, role });
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: `This user is now a ${role}`,
-                    showConfirmButton: false,
-                    timer: 2500,
-                });
-                refetch();
-            }
-        } catch (error) {
-            toast(<p className="text-white p-2 bg-red-500">Failed to update role. Please try again.</p>);
-        }
-    };
+   const {data,refetch,currentPage,setCurrentPage,pageCount,setPageCount,isPending,isLoading}=useAllDeliveryman();
+ 
 
     const handlePageClick = (value) => {
         if (value === "increase") {
@@ -114,7 +57,7 @@ const AllDeliveryMen = () => {
                         {data?.deliveryMan?.map((user, index) => (
                             <TableRow key={index} className="hover:bg-gray-50 divide-x-2 divide-gray-200 transition-colors">
                                 <TableCell className="px-4 py-3 sm:px-6 font-medium text-gray-800">{user.displayName}</TableCell>
-                                <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user?.phoneNumber} x will do</TableCell>
+                                <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user?.phoneNumber} </TableCell>
                                 <TableCell
                                     className={`px-4 py-3 sm:px-6 capitalize font-semibold ${user?.role === "admin"
                                             ? "text-red-600"
@@ -123,10 +66,10 @@ const AllDeliveryMen = () => {
                                                 : "text-blue-600"
                                         }`}
                                 >
-                                    {/* {user.role} */} xxx Willl do
+                                    {/* {user.role} */}
                                 </TableCell>
                                 <TableCell className="px-4 py-3 sm:px-6 text-center">                                   
-                                       xxxx will do                                   
+                                                                         
                                 </TableCell>
                               
                             </TableRow>

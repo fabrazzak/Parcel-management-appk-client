@@ -16,9 +16,12 @@ import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import useLoadUser from "@/src/hooks/useLoadUser";
 import Swal from "sweetalert2";
+import useAllDeliveryman from "@/src/hooks/useAllDeliveryman";
 
 const AllParcels = () => {
-    const { allBookParcels, refetch, isPending, isLoading, error } = useAllGetBookParcels()
+    const { allBookParcels, refetch } = useAllGetBookParcels();
+    const {data}=useAllDeliveryman();
+    console.log(data,"love")
     const [bookings, setBookings] = useState([...allBookParcels]);
     const [showAlert, setShowAlert] = useState(false);
     const [webUser] = useLoadUser()
@@ -145,7 +148,7 @@ const AllParcels = () => {
                                 <td className="px-4 py-2">{booking.price}</td>
                                 <td className={`px-4 py-2 capitalize font-semibold  ${booking.status == "canceled" ? "text-red-500" : booking.status == "pending" ? "text-purple-600" : "text-orange-500"}`}>{booking.status}</td>
                                 <td className="px-4 py-2">
-                                    <Button
+                                    <Button disabled={booking?.status=="canceled"}
                                         className="bg-[#9538E2] text-white"
                                         onClick={() => setShowAlert(true)}
                                     >
@@ -177,24 +180,26 @@ const AllParcels = () => {
                                 <FormField
                                     control={form.control}
                                     name="deliveryMan"
+                                    rules={{ required: "Delivery man is Required" }}
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Select Delivery man</FormLabel>
                                             <FormControl>
-                                                <Select onValueChange={field.onChange} // Bind onChange to the form field
+                                                <Select  onValueChange={field.onChange} // Bind onChange to the form field
                                                     value={field.value} >
                                                     <SelectTrigger className="w-[300px]">
                                                         <SelectValue  placeholder="Please Select One" />
                                                     </SelectTrigger>
                                                     <SelectContent>
                                                         <SelectGroup>
-                                                            <SelectLabel>North America</SelectLabel>
+                                                            {
+                                                                data?.deliveryMan?.map(deliveryMan=>(
+                                                                    <SelectItem key={deliveryMan?._id} value={deliveryMan?._id}> {deliveryMan?.displayName}</SelectItem>
+                                                                ))
+                                                            }
+                                                           
                                                             <SelectItem value="est">Eastern Standard Time (EST)</SelectItem>
-                                                            <SelectItem value="cst">Central Standard Time (CST)</SelectItem>
-                                                            <SelectItem value="mst">Mountain Standard Time (MST)</SelectItem>
-                                                            <SelectItem value="pst">Pacific Standard Time (PST)</SelectItem>
-                                                            <SelectItem value="akst">Alaska Standard Time (AKST)</SelectItem>
-                                                            <SelectItem value="hst">Hawaii Standard Time (HST)</SelectItem>
+                                                            
                                                         </SelectGroup>
 
                                                     </SelectContent>

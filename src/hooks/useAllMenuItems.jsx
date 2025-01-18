@@ -11,11 +11,11 @@ const useAllMenuItems = () => {
     {
       role: "admin",
       items: [
-        { id: "home", label: "Home", icon: <ParcelIcon />, to: "/" },
+        { id: "home", label: "Home", icon: <ParcelIcon />, to: "/" },{ id: "statistics", label: "Statistics", icon: <ActivityIcon />, to: "statistics" },
         { id: "all-parcels", label: "All Parcels", icon: <ParcelIcon />, to: "all-parcels" },
         { id: "all-users", label: "All Users", icon: <UsersIcon />, to: "all-users" },
         { id: "all-delivery-man", label: "All Delivery Men", icon: <DeliveryManIcon />, to: "all-delivery-man" },
-        { id: "statistics", label: "Statistics", icon: <ActivityIcon />, to: "statistics" },
+        
       ]
     },
     {
