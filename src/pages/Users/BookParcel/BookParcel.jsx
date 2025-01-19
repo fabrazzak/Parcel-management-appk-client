@@ -41,7 +41,8 @@ const BookParcel = () => {
             email: webUser?.email,
             bookingDate: new Date(),
             userId: webUser?._id,
-            status: "pending"
+            status: "pending",
+            photoURL:webUser?.photoURL
         }
         refetch()
        

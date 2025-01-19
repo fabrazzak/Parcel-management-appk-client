@@ -8,9 +8,10 @@ import { useContext } from 'react';
 import useAllMenuItems from '@/src/hooks/useAllMenuItems';
 import { GlobeIcon } from '@/src/components/icons/Icon';
 import { MenuIcon } from 'lucide-react';
+import Loading from '@/src/components/custom/Loading/Loading';
 
 const DashBoard = () => {
-  const { isActive, setIsActive } = useContext(AuthContext);
+  const { isActive, setIsActive,loading } = useContext(AuthContext);
   
  
   const navItems=useAllMenuItems();
@@ -78,7 +79,8 @@ const DashBoard = () => {
 
         {/* Outlet for rendering child routes */}
         <main className="p-4 lg:p-8">
-          <Outlet />
+           {loading ? <Loading></Loading> :  <Outlet />}
+         
         </main>
       </div>
     </div>

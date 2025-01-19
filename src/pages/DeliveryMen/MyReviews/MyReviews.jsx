@@ -2,16 +2,16 @@ import { Card, CardContent, CardHeader } from "@/src/components/ui/card";
 import { Badge } from "@/src/components/ui/badge";
 
 import useAllReviews from "@/src/hooks/useAllRevies";
+import Loading from "@/src/components/custom/Loading/Loading";
 
 const MyReviews = () => {
   const { reviews, refetch, isLoading, isPending } = useAllReviews();
+  console.log(reviews,"hello ")
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-purple-500 border-solid"></div>
-      </div>
-    );
+      <Loading></Loading>
+    )
   }
 
   return (

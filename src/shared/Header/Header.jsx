@@ -68,26 +68,20 @@ const Header = () => {
                                     <DropdownMenuLabel>{webUser?.displayName}</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>
-                                        <NavLink  to={`${webUser?.role == "admin"
+                                        <NavLink
+                                            to={
+                                                webUser?.role === "admin"
                                                     ? "/dashboard/statistics"
                                                     : webUser?.role === "delivery-man"
                                                         ? "/dashboard/my-delivery-list"
                                                         : "/dashboard/book-parcel"
-                                                }`}
-                                            onClick={() =>
-                                                setIsActive(
-                                                    webUser?.role === "admin"
-                                                        ? "statistics"
-                                                        : webUser?.role === "delivery-man"
-                                                            ? "my-delivery-list"
-                                                            : "book-parcel"
-                                                )
                                             }
-                                            className={`font-bold py-1 rounded-sm ${isActive === "dashboard" && "bg-[#0B0B0B] text-white w-full ps-3"
-                                                } bg-white text-[#0B0B0B] w-full hover:bg-[#0B0B0B] hover:text-white hover:ps-3`}
+                                            onClick={() => setIsActive(webUser?.role === "admin" ? "statistics" : webUser?.role === "delivery-man" ? "my-delivery-list" : "book-parcel")}
+                                            className={`font-bold py-1 rounded-sm ${isActive === "dashboard" ? "bg-[#0B0B0B] text-white ps-3" : "bg-white text-[#0B0B0B]"} w-full hover:bg-[#0B0B0B] hover:text-white hover:ps-3`}
                                         >
                                             Dashboard
                                         </NavLink>
+
 
                                     </DropdownMenuItem> <DropdownMenuItem>
                                         <NavLink onClick={() => { logOutHandle() }} className={`font-bold   py-1 rounded-sm bg-white  text-[#0B0B0B] w-full hover:bg-[#0B0B0B] hover:text-white hover:ps-3 `}> Logout</NavLink>
@@ -135,26 +129,28 @@ const Header = () => {
                                             <DropdownMenuLabel>User Name</DropdownMenuLabel>
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem>
-                                                <NavLink 
+                                                <NavLink
+                                                    to={
+                                                        webUser?.role === "admin"
+                                                            ? "/dashboard/all-parcels"
+                                                            : webUser?.role === "delivery-man"
+                                                                ? "/dashboard/my-delivery-list"
+                                                                : "/dashboard/book-parcel"
+                                                    }
+                                                    onClick={() =>
+                                                        setIsActive(
+                                                            webUser?.role === "admin"
+                                                                ? "all-parcels"
+                                                                : webUser?.role === "delivery-man"
+                                                                    ? "my-delivery-list"
+                                                                    : "book-parcel"
+                                                        )
+                                                    }
+                                                    className={`font-bold py-1 rounded-sm ${isActive === "dashboard" ? "bg-[#0B0B0B] text-white ps-3" : ""}`}
+                                                >
+                                                    Dashboard
+                                                </NavLink>
 
-                                                 to={`${webUser?.role == "admin"
-                                                    ? "/dashboard/all-parcels"
-                                                    : webUser?.role == "delivery-man"
-                                                        ? "/dashboard/my-delivery-list"
-                                                        : "dashboard/book-parcel"
-                                                }`}
-                                            onClick={() =>
-                                                setIsActive(
-                                                    webUser?.role === "admin"
-                                                        ? "all-parcels"
-                                                        : webUser?.role === "delivery-man"
-                                                            ? "my-delivery-list"
-                                                            : "book-parcel"
-                                                )
-                                            }                                               
-                                                
-                                                
-                                                className={`font-bold   py-1 rounded-sm ${isActive == "dashboard" && "bg-[#0B0B0B] text-white w-full ps-3"} `}>Dashboard</NavLink>
                                             </DropdownMenuItem> <DropdownMenuItem>
                                                 <NavLink onClick={() => { logOutHandle() }} className={`font-bold flex justify-start border-none  py-1 rounded-sm  bg-white text-[#0B0B0B] w-full ps-0   `}>Logout</NavLink>
                                             </DropdownMenuItem>

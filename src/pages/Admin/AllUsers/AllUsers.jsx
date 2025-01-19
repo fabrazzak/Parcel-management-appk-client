@@ -89,6 +89,8 @@ const AllUsers = () => {
         return <Loading />;
     }
 
+    console.log(data.users)
+
     return (
         <div className="p-6 bg-gray-100 rounded-lg shadow-md overflow-x-auto  w-[360px] lg:w-full md:w-[700px] mx-auto ">
             <div className="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0">
