@@ -6,7 +6,7 @@ import useAllDeliveryman from "@/src/hooks/useAllDeliveryman";
 import { toast, ToastContainer } from "react-toastify";
 
 const AllDeliveryMen = () => {
-   const {data,refetch,currentPage,setCurrentPage,pageCount,setPageCount,isPending,isLoading}=useAllDeliveryman();
+   const {data,currentPage,setCurrentPage,isLoading}=useAllDeliveryman();
  
 
     const handlePageClick = (value) => {
@@ -54,26 +54,28 @@ const AllDeliveryMen = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {data?.deliveryMan?.map((user, index) => (
-                            <TableRow key={index} className="hover:bg-gray-50 divide-x-2 divide-gray-200 transition-colors">
-                                <TableCell className="px-4 py-3 sm:px-6 font-medium text-gray-800">{user.displayName}</TableCell>
-                                <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user?.phoneNumber} </TableCell>
-                                <TableCell
-                                    className={`px-4 py-3 sm:px-6 capitalize font-semibold ${user?.role === "admin"
-                                            ? "text-red-600"
-                                            : user?.role === "delivery-man"
-                                                ? "text-purple-600"
-                                                : "text-blue-600"
-                                        }`}
-                                >
-                                    {/* {user.role} */}
-                                </TableCell>
-                                <TableCell className="px-4 py-3 sm:px-6 text-center">                                   
-                                                                         
-                                </TableCell>
-                              
-                            </TableRow>
-                        ))}
+                      { isLoading ? <Loading></Loading> :
+                      
+                      data?.deliveryMan?.map((user, index) => (
+                        <TableRow key={index} className="hover:bg-gray-50 divide-x-2 divide-gray-200 transition-colors">
+                            <TableCell className="px-4 py-3 sm:px-6 font-medium text-gray-800">{user.displayName}</TableCell>
+                            <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user?.phoneNumber} </TableCell>
+                            <TableCell
+                                className={`px-4 py-3 sm:px-6 capitalize font-semibold ${user?.role === "admin"
+                                        ? "text-red-600"
+                                        : user?.role === "delivery-man"
+                                            ? "text-purple-600"
+                                            : "text-blue-600"
+                                    }`}
+                            >
+                                {/* {user.role} */}
+                            </TableCell>
+                            <TableCell className="px-4 py-3 sm:px-6 text-center">                                   
+                                                                     
+                            </TableCell>
+                          
+                        </TableRow>
+                    ))}
                     </TableBody>
                 </Table>
             </div>

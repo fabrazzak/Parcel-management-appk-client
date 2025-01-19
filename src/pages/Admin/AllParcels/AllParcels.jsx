@@ -1,18 +1,14 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/src/components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from "@/src/components/ui/dialog";
-import { Input } from "@/src/components/ui/input";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/src/components/ui/select";
-
+import { Select, SelectContent, SelectGroup, SelectItem,  SelectTrigger, SelectValue } from "@/src/components/ui/select";
 import useAxiosSecures from "@/src/hooks/useAxiosSecures";
-import { Pagination } from "@/src/components/ui/pagination";
 import useAllGetBookParcels from "@/src/hooks/useAllGetBookParcels";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from "@/src/components/ui/alert-dialog";
+import { AlertDialog,  AlertDialogCancel, AlertDialogContent, AlertDialogTitle } from "@/src/components/ui/alert-dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/src/components/ui/form";
 import { Calendar } from "@/src/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/src/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+import { format, isWithinInterval, parseISO } from "date-fns";
 import { useForm } from "react-hook-form";
 import useLoadUser from "@/src/hooks/useLoadUser";
 import Swal from "sweetalert2";
@@ -20,75 +16,58 @@ import useAllDeliveryman from "@/src/hooks/useAllDeliveryman";
 
 const AllParcels = () => {
     const { allBookParcels, refetch } = useAllGetBookParcels();
-    const {data}=useAllDeliveryman();
-    console.log(data,"love")
+    const {data}=useAllDeliveryman();    
     const [bookings, setBookings] = useState([...allBookParcels]);
     const [showAlert, setShowAlert] = useState(false);
     const [webUser] = useLoadUser()
     const form = useForm();
-      const [deliveryMen, setDeliveryMen] = useState([]);
-    const [selectedBooking, setSelectedBooking] = useState(null);
-    
-    //   const [currentPage, setCurrentPage] = useState(1);
+    const axiosSecure=useAxiosSecures()    
+    const [selectedBookingId, setSelectedBookingId] = useState('null');
+ 
+    const [filteredBookings, setFilteredBookings] = useState([]);
+   
 
-    //   const axiosSecure = useAxiosSecures();
-    //   const rowsPerPage = 5;
+    const [dateFrom, setDateFrom] = useState(null);
+    const [dateTo, setDateTo] = useState(null);    
 
     useEffect(() => {
-        setBookings([...allBookParcels]);
-
+        setBookings([...allBookParcels]);        
     }, [allBookParcels]);
 
 
 
     const handleDeliveryManFormSubmits = async (data) => {
-
         setShowAlert(false);
-        console.log(data)
+        const deliveryInfo={
+            parcelId:selectedBookingId,
+            approximateDeliveryDate:data.deliveryDate,
+            deliveryManID:data.deliveryMan,
+            status:"on-the-way"
+        }
+      const response= await  axiosSecure.put("assign-book-parcel",{...deliveryInfo})
+        console.log(response)
+        refetch();
+    };
 
 
 
-        // const parcelInfo = {
-        //     ...data,
-        //     price,
-        //     name: webUser?.displayName,
-        //     email: webUser?.email,
-        //     bookingDate: new Date(),
-        //     userId: webUser?._id,
-        //     status: "pending"
-        // }
-        // refetch()
+    const handleDateSearch = () => {
+        if (!dateFrom || !dateTo) return;
+
+        const filtered = allBookParcels.filter((booking) =>
+            isWithinInterval(parseISO(booking?.deliveryDate), {
+                start: dateFrom,
+                end: dateTo,
+            })
+        );
+        setBookings(filtered);
+    };
 
 
-        // try {
-        // const response = await axiosSecure.post("book-parcel", { ...parcelInfo })
-
-
-        //     if (response.data.acknowledged) {
-        //         Swal.fire({
-        //             position: "top-end",
-        //             icon: "success",
-        //             title: "Your parcel is book successfully",
-        //             showConfirmButton: false,
-        //             timer: 1500
-        //         });
-
-        //     }
-
-        // } catch (error) {
-        //     Swal.fire({
-        //         icon: "error",
-        //         title: "Oops...",
-        //         text: `${error.message}`,
-        //         footer: '<a href="#">Why do I have this issue?</a>'
-        //     });
-
-        // }
-
-
-
-
-
+    const resetSearch = () => {
+        setDateFrom(null);
+        setDateTo(null);
+        setBookings([...allBookParcels]);
     };
 
 
@@ -103,25 +82,63 @@ const AllParcels = () => {
                 </h3>
             </div>
 
-            {/* Search System */}
+          
             <div className="flex justify-between items-center bg-gray-100 p-4 rounded-lg mb-6">
-                <Input
-                    type="date"
-                    //   value={searchDateFrom}
-                    //   onChange={(e) => setSearchDateFrom(e.target.value)}
-                    className="w-1/2 mr-2"
-                    placeholder="From Date"
-                />
-                <Input
-                    type="date"
-                    //   value={searchDateTo}
-                    //   onChange={(e) => setSearchDateTo(e.target.value)}
-                    className="w-1/2 ml-2"
-                    placeholder="To Date"
-                />
-                {/* <Button className="bg-[#9538E2] text-white ml-4" onClick={handleSearch}>
-          Search
-        </Button> */}
+              
+               
+            <div className="flex flex-wrap gap-4 items-center ">
+                <div className="flex items-center gap-4">
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button variant="outline">
+                                <CalendarIcon className="mr-2" />
+                                {dateFrom ? format(dateFrom, "PPP") : "Date From"}
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <Calendar
+                                mode="single"
+                                selected={dateFrom}
+                                onSelect={setDateFrom}
+                                disabled={(date) => date > (dateTo)}
+                            />
+                        </PopoverContent>
+                    </Popover>
+
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button variant="outline">
+                                <CalendarIcon className="mr-2" />
+                                {dateTo ? format(dateTo, "PPP") : "Date To"}
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <Calendar
+                                mode="single"
+                                selected={dateTo}
+                                onSelect={setDateTo}
+                                disabled={(date) => date < (dateFrom || new Date())}
+                            />
+                        </PopoverContent>
+                    </Popover>
+
+                    <Button className="bg-[#9538E2] text-white" onClick={handleDateSearch}>
+                        Search
+                    </Button>
+                    <Button variant="outline" onClick={resetSearch}>
+                        Reset
+                    </Button>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+               
             </div>
 
             {/* Bookings Table */}
@@ -150,7 +167,7 @@ const AllParcels = () => {
                                 <td className="px-4 py-2">
                                     <Button disabled={booking?.status=="canceled"}
                                         className="bg-[#9538E2] text-white"
-                                        onClick={() => setShowAlert(true)}
+                                        onClick={() => {setShowAlert(true),setSelectedBookingId(booking._id)}}
                                     >
                                         Manage
                                     </Button>
@@ -159,14 +176,7 @@ const AllParcels = () => {
                         ))}
                     </tbody>
                 </table>
-
-                {/* Pagination */}
-                {/* <Pagination
-          totalRows={bookings?.length}
-          rowsPerPage={rowsPerPage}
-          currentPage={currentPage}
-          onPageChange={(page) => setCurrentPage(page)}
-        /> */}
+             
             </div>
 
 
