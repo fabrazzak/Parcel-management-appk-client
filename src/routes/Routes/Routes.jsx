@@ -15,6 +15,7 @@ import MyParcel from "@/src/pages/Users/MyParcel/MyParcel";
 import UpdateMyParcel from "@/src/pages/Users/MyParcel/UpdateMyParcel";
 import MyProfile from "@/src/pages/Users/MyProfile/MyProfile";
 import { createBrowserRouter } from "react-router-dom";
+import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
 
 const Routes = createBrowserRouter([
   {
@@ -29,20 +30,24 @@ const Routes = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <DashBoard />,
+    element: (
+      <PrivateRoutes>
+        <DashBoard />
+      </PrivateRoutes>
+    ),
     children: [
-      { path: "book-parcel", element: <BookParcel /> },
-      { path: "my-parcels", element: <MyParcel /> },
-      { path: "my-parcels/:id", element: <UpdateMyParcel /> },
-      { path: "my-profile", element: <MyProfile /> },
-      { path: "all-parcels", element: <AllParcels /> },
-      { path: "all-users", element: <AllUsers /> },
-      { path: "all-delivery-man", element: <AllDeliveryMen /> },
-      { path: "statistics", element: <Statistics /> },
-      { path: "my-delivery-list", element: <MyDeliveryList /> },
-      { path: "my-reviews", element: <MyReviews /> },
+      { path: "book-parcel", element: <PrivateRoutes><BookParcel /></PrivateRoutes> },
+      { path: "my-parcels", element: <PrivateRoutes><MyParcel /></PrivateRoutes> },
+      { path: "my-parcels/:id", element: <PrivateRoutes><UpdateMyParcel /></PrivateRoutes> },
+      { path: "my-profile", element: <PrivateRoutes><MyProfile /></PrivateRoutes> },
+      { path: "all-parcels", element: <PrivateRoutes><AllParcels /></PrivateRoutes> },
+      { path: "all-users", element: <PrivateRoutes><AllUsers /></PrivateRoutes> },
+      { path: "all-delivery-man", element: <PrivateRoutes><AllDeliveryMen /></PrivateRoutes> },
+      { path: "statistics", element: <PrivateRoutes><Statistics /></PrivateRoutes> },
+      { path: "my-delivery-list", element: <PrivateRoutes><MyDeliveryList /></PrivateRoutes> },
+      { path: "my-reviews", element: <PrivateRoutes><MyReviews /></PrivateRoutes> },
     ],
-  },
+  }
 ]);
 
 export default Routes;
