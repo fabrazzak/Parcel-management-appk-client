@@ -124,14 +124,23 @@ const MyParcel = () => {
                   </Button>
                   {dropdowns[parcel._id] && (
                     <div className="absolute bg-white border rounded-md shadow-lg w-40 mt-2 z-10 p-4 right-0 bottom-10 space-y-2">
-                      <Link to={`/dashboard/my-parcels/${parcel._id}`}>
-                      <Button
+                      {
+                        parcel.status !== "pending" ?  <Button
                         disabled={parcel.status !== "pending"}                        
                         className="w-full text-left px-4 py-2 text-white  bg-blue-500 hover:bg-blue-600"
                       >
                         Update
-                      </Button>
-                      </Link>
+                      </Button> :
+                        <Link to={`/dashboard/my-parcels/${parcel._id}`}>
+                        <Button
+                          disabled={parcel.status !== "pending"}                        
+                          className="w-full text-left px-4 py-2 text-white  bg-blue-500 hover:bg-blue-600"
+                        >
+                          Update
+                        </Button>
+                        </Link> 
+                      }
+                      
                       <Button
                         disabled={parcel.status !== "pending"}
                         onClick={() => handleCancel(parcel._id)}
@@ -142,14 +151,14 @@ const MyParcel = () => {
                       {parcel.status === "delivered" && (
                         <Button
                           onClick={() => handleReview(parcel._id)}
-                          className="w-full text-left px-4 py-2 text-gray-700  bg-yellow-500 hover:bg-yellow-600"
+                          className="w-full text-left px-4 py-2 text-white  bg-yellow-500 hover:bg-yellow-600"
                         >
                           Review
                         </Button>
                       )}
                       {parcel.status === "delivered" && (
                         <Button
-                          className="w-full text-left px-4 py-2 text-gray-700  bg-green-500 hover:bg-green-600"
+                          className="w-full text-left px-4 py-2 text-white  bg-green-500 hover:bg-green-600"
                         >
                           Pay
                         </Button>

@@ -160,12 +160,12 @@ const AllParcels = () => {
                             <tr key={booking._id} className="border-b divide-x-2">
                                 <td className="px-4 py-2">{booking.name}</td>
                                 <td className="px-4 py-2">{booking.phoneNumber}</td>
-                                <td className="px-4 py-2">{booking.bookingDate}</td>
-                                <td className="px-4 py-2">{booking.deliveryDate}</td>
+                                <td className="px-4 py-2">{booking?.bookingDate?.slice(0,10)}</td>
+                                <td className="px-4 py-2">{booking?.deliveryDate?.slice(0,10)}</td>
                                 <td className="px-4 py-2">{booking.price}</td>
                                 <td className={`px-4 py-2 capitalize font-semibold  ${booking.status == "canceled" ? "text-red-500" : booking.status == "pending" ? "text-purple-600" : "text-orange-500"}`}>{booking.status}</td>
                                 <td className="px-4 py-2">
-                                    <Button disabled={booking?.status=="canceled"}
+                                    <Button disabled={booking?.status=="canceled" || booking?.status =="delivered"}
                                         className="bg-[#9538E2] text-white"
                                         onClick={() => {setShowAlert(true),setSelectedBookingId(booking._id)}}
                                     >
