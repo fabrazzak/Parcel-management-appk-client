@@ -69,7 +69,7 @@ const AllParcels = () => {
         setDateTo(null);
         setBookings([...allBookParcels]);
     };
-
+ fg
 
     return (
         <div className="container mx-auto p-8 rounded-lg shadow-lg bg-white overflow-x-auto  w-[360px] lg:w-full md:w-[700px]">
