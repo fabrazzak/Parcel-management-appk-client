@@ -3,10 +3,12 @@ import Loading from "@/src/components/custom/Loading/Loading";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/src/components/ui/pagination";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "@/src/components/ui/table";
 import useAllDeliveryman from "@/src/hooks/useAllDeliveryman";
+import { Rating } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
 
 const AllDeliveryMen = () => {
    const {data,currentPage,setCurrentPage,isLoading}=useAllDeliveryman();
+   console.log(data,"all delivery amn")
  
 
     const handlePageClick = (value) => {
@@ -50,7 +52,7 @@ const AllDeliveryMen = () => {
                             <TableCell className="text-sm font-bold text-white   px-4 py-3 sm:px-6">Name</TableCell>
                             <TableCell className="text-sm font-bold text-white  px-4 py-3 sm:px-6">Phone Number</TableCell>
                             <TableCell className="text-sm font-bold text-white  px-4 py-3 sm:px-6">Number of parcels delivered</TableCell>
-                            <TableCell className="text-sm font-bold text-white  text-center px-4 py-3 sm:px-6">Average review</TableCell>
+                            <TableCell className="text-sm font-bold text-white   px-4 py-3 sm:px-6">Average review</TableCell>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -61,16 +63,13 @@ const AllDeliveryMen = () => {
                             <TableCell className="px-4 py-3 sm:px-6 font-medium text-gray-800">{user.displayName}</TableCell>
                             <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user?.phoneNumber} </TableCell>
                             <TableCell
-                                className={`px-4 py-3 sm:px-6 capitalize font-semibold ${user?.role === "admin"
-                                        ? "text-red-600"
-                                        : user?.role === "delivery-man"
-                                            ? "text-purple-600"
-                                            : "text-blue-600"
-                                    }`}
+                                className={`px-4 py-3 sm:px-6 capitalize font-semibold `}
                             >
-                                {/* {user.role} */}
+                                {user.parcelDelivered
+                                }
                             </TableCell>
-                            <TableCell className="px-4 py-3 sm:px-6 text-center">                                   
+                            <TableCell className="px-4 py-3 sm:px-6 text-center"> 
+                                {user.reviewAverage == 0 ? "N/A": <div className=" flex content-center items-center gap-2 font-bold"><Rating name="read-only" value={user.reviewAverage} readOnly />{ user.reviewAverage}</div> }                                   
                                                                      
                             </TableCell>
                           

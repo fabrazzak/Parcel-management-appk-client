@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import useAxiosSecures from '@/src/hooks/useAxiosSecures';
 import { FaGoogle } from 'react-icons/fa';
 import { Separator } from '@/src/components/ui/separator';
+import useLoadUser from '@/src/hooks/useLoadUser';
 
 const SignUp = () => {
   const { createUser, profileUpdate, loginWithGoogle } = useContext(AuthContext);
@@ -19,6 +20,7 @@ const SignUp = () => {
   const axiosSecure = useAxiosSecures();
   const location = useLocation();
   const navigate = useNavigate();
+  const [webUser,refetch]=useLoadUser()
 
   const handleRegister = async (data) => {
     const { name, photoUrl, email, password,phoneNumber } = data;
@@ -46,7 +48,7 @@ const SignUp = () => {
           password: "",
         });
 
-
+        refetch()
         location?.state ? navigate(location?.state) : navigate("/");
 
       }
@@ -74,6 +76,7 @@ const SignUp = () => {
 
         location?.state ? navigate(location?.state) : navigate("/");
         await axiosSecure.post('/users', { ...userInfo });
+        refetch()
       }
 
     } catch (error) {

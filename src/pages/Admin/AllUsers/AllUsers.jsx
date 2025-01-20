@@ -29,6 +29,8 @@ const AllUsers = () => {
         },
     });
 
+    console.log(data)
+
     const handleRoleChange = async (email, role) => {
         try {
             if (role === "user") {

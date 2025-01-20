@@ -3,6 +3,7 @@ import { Badge } from "@/src/components/ui/badge";
 
 import useAllReviews from "@/src/hooks/useAllRevies";
 import Loading from "@/src/components/custom/Loading/Loading";
+import { Rating } from "@mui/material";
 
 const MyReviews = () => {
   const { reviews, refetch, isLoading, isPending } = useAllReviews();
@@ -42,7 +43,7 @@ const MyReviews = () => {
           </CardHeader>
           <CardContent className="mt-4">
             <div className="flex items-center gap-1">
-              {/* <Rating name="read-only" value={review.rating} readOnly /> */}
+              <Rating name="read-only" value={review.rating} readOnly />
             </div>
             <p className="mt-3 text-gray-600">{review.feedback}</p>
             <Badge

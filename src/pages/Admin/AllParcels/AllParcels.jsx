@@ -72,7 +72,7 @@ const AllParcels = () => {
 
 
     return (
-        <div className="container mx-auto p-8 rounded-lg shadow-lg bg-white">
+        <div className="container mx-auto p-8 rounded-lg shadow-lg bg-white overflow-x-auto  w-[360px] lg:w-full md:w-[700px]">
             <div className="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0">
                 <h1 className="text-3xl font-bold text-[#9538E2]">
                     All Parcels
@@ -87,7 +87,7 @@ const AllParcels = () => {
 
 
                 <div className="flex flex-wrap gap-4 items-center ">
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center flex-wrap gap-4">
                         <Popover>
                             <PopoverTrigger>
                                 <Button variant="outline">
@@ -100,7 +100,7 @@ const AllParcels = () => {
                                     mode="single"
                                     selected={dateFrom}
                                     onSelect={setDateFrom}
-                                    disabled={(date) => date > (dateTo)}
+                                    disabled={(date) => date > (dateTo || new Date())}
                                 />
                             </PopoverContent>
                         </Popover>
