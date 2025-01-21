@@ -1,64 +1,79 @@
 import React, { useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
-import { Button } from "@/src/components/ui/button";
 import axios from 'axios';
 import useAxiosSecures from '@/src/hooks/useAxiosSecures';
+import { useNavigate } from 'react-router-dom';
 
 const CheckOutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
     const axiosSecures=useAxiosSecures()
+    const navigate=useNavigate()
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!stripe || !elements) return;
+
+        const card = elements.getElement(CardElement);
+        if (!card) return;
+
         setLoading(true);
-
-        const cardElement = elements.getElement(CardElement);
-
-        if (!stripe || !elements || !cardElement) {
-            setMessage("Stripe is not initialized. Please try again later.");
-            setLoading(false);
-            return;
-        }
-
         try {
-            // Send payment intent request to the server
-            const { data } = await axiosSecures.post('create-payment-intent', {
-                amount: 1000, // Example amount in cents
+            const { data } = await axiosSecures.post('http://localhost:5000/create-payment-intent', {
+                amount: 1000,
                 currency: 'usd',
             });
 
-            // Confirm payment with Stripe
-            const { error, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret, {
-                payment_method: {
-                    card: cardElement,
-                },
-            });
-            console.log(paymentIntent)
+            const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(
+                data.clientSecret,
+                {
+                    payment_method: {
+                        card: card,
+                    },
+                }
+            );
 
-            if (error) {
-                setMessage(`Payment failed: ${error.message}`);
-            } else if (paymentIntent.status === 'succeeded') {
-                setMessage('Payment successful!');
+            if(paymentIntent.status =="succeeded"){
+                navigate("/dashboard/payment-success")
             }
+
+            if (confirmError) {
+                console.error('Error confirming payment:', confirmError);
+                return;
+            }
+
+            console.log('Payment successful:', paymentIntent);
         } catch (error) {
-            setMessage(`Error: ${error.response?.data?.error || error.message}`);
+            console.error('Payment Error:', error);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="border rounded-lg p-4">
-                <CardElement options={{ hidePostalCode: true }} />
-            </div>
-            <Button type="submit" disabled={!stripe || loading} className="bg-[#9538E2] text-white w-full">
+        <form onSubmit={handleSubmit} className="shadow-lg p-8">
+            <CardElement
+                className="p-2 rounded-lg border"
+                options={{
+                    style: {
+                        base: {
+                            fontSize: '16px',
+                            color: '#424770',
+                            '::placeholder': { color: '#aab7c4' },
+                        },
+                        invalid: { color: '#9e2146' },
+                    },
+                }}
+            />
+            <button
+                className="btn bg-purple-600 px-8 py-2 rounded-lg mt-4 text-white font-bold"
+                type="submit"
+                disabled={!stripe || loading}
+            >
                 {loading ? 'Processing...' : 'Pay'}
-            </Button>
-            {message && <p className="text-red-500 mt-4">{message}</p>}
+            </button>
         </form>
     );
 };

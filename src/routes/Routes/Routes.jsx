@@ -17,6 +17,7 @@ import MyProfile from "@/src/pages/Users/MyProfile/MyProfile";
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
 import Payment from "@/src/pages/Payment/Payment";
+import PaymentSuccess from "@/src/pages/Payment/PaymentSuccess";
 
 const Routes = createBrowserRouter([
   {
@@ -48,6 +49,7 @@ const Routes = createBrowserRouter([
       { path: "my-delivery-list", element: <PrivateRoutes><MyDeliveryList /></PrivateRoutes> },
       { path: "my-reviews", element: <PrivateRoutes><MyReviews /></PrivateRoutes> },
       { path: "payment", element: <PrivateRoutes><Payment></Payment></PrivateRoutes> },
+      { path: "payment-success", element: <PrivateRoutes><PaymentSuccess></PaymentSuccess></PrivateRoutes> },
     ],
   }
 ]);

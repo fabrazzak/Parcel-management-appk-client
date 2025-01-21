@@ -1,10 +1,10 @@
-import React from 'react';
+
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
 import CheckOutForm from './CheckOutForm'; // Adjust the path as necessary
+import { Elements } from '@stripe/react-stripe-js';
 
 // Stripe public key
-const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+const stripePromise = loadStripe('pk_test_51JJjG3IyzOvKR7N2fjUzoyayFK8q9tR1QwZVPhN6l7YYMI7ZZ4EytT6xAwl0DoeSvLJlgUOB7gbpf2FZDlhobWYR007blbKeKw');
 
 const PaymentPage = () => {
     return (

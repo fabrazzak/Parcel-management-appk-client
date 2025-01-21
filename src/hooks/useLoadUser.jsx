@@ -11,7 +11,7 @@ const useLoadUser = () => {
     queryKey: ["userData", user?.email], 
     queryFn: async () => {
       if (!user?.email) return []; 
-      const response = await axiosSecure.get(`user/${user.email}`); 
+      const response = await axiosSecure.get(`user/${user.email}`,{headers:{Authorization:`bearer ${localStorage.getItem("token")}`}}); 
       return response.data;
     },
     enabled: !!user?.email, 
