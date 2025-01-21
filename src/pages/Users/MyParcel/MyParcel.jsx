@@ -27,11 +27,11 @@ const MyParcel = () => {
 
 
   
-  useEffect(() => {
-    if(myParcels.length >0){
-      console.log(myParcels)
+  useEffect(() => {   
+    const timer = setTimeout(() => {               
       setParcels([...myParcels]);
-    }
+  }, 1000); 
+   return () => clearTimeout(timer);
    
   }, [myParcels]);
 
@@ -106,11 +106,7 @@ const MyParcel = () => {
   };
 
 
-
-  if (isPending) {
-    return <Loading></Loading>
-  }
-
+  
   return (
     <div>
 
@@ -143,10 +139,14 @@ const MyParcel = () => {
               <th className="border p-3 text-left">Actions</th>
             </tr>
           </thead>
+
+          
           {
             parcels?.length == 0 ? <p className="text-center w-full flex  py-10 justify-center text-2xl font-bold"> Not Available</p> :
 
               <tbody>
+              
+
                 {filteredParcels.map((parcel) => (
                   <tr key={parcel.id} className="hover:bg-[#f3f3f3]">
                     <td className="border p-3">{parcel.parcelType}</td>
@@ -198,11 +198,13 @@ const MyParcel = () => {
                               </Button>
                             )}
                             {parcel.status === "delivered" && (
+                             <Link to="/dashboard/payment">
                               <Button
                                 className="w-full text-left px-4 py-2 text-white  bg-green-500 hover:bg-green-600"
                               >
                                 Pay
                               </Button>
+                              </Link>
                             )}
                           </div>
                         )}

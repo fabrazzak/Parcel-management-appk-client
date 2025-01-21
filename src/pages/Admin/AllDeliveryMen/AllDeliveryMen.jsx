@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 const AllDeliveryMen = () => {
    const {data,currentPage,setCurrentPage,isLoading}=useAllDeliveryman();
+   
    console.log(data,"all delivery amn")
  
 
@@ -69,7 +70,7 @@ const AllDeliveryMen = () => {
                                 }
                             </TableCell>
                             <TableCell className="px-4 py-3 sm:px-6 text-center"> 
-                                {user.reviewAverage == 0 ? "N/A": <div className=" flex content-center items-center gap-2 font-bold"><Rating name="read-only" value={user.reviewAverage} readOnly />{ user.reviewAverage}</div> }                                   
+                                {user?.reviewAverage == 0 ? "N/A": <div className=" flex content-center items-center gap-2 font-bold"><Rating name="read-only" value={user.reviewAverage} readOnly />{ user.reviewAverage}</div> }                                   
                                                                      
                             </TableCell>
                           

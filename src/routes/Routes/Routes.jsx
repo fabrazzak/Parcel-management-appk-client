@@ -16,6 +16,7 @@ import UpdateMyParcel from "@/src/pages/Users/MyParcel/UpdateMyParcel";
 import MyProfile from "@/src/pages/Users/MyProfile/MyProfile";
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
+import Payment from "@/src/pages/Payment/Payment";
 
 const Routes = createBrowserRouter([
   {
@@ -46,6 +47,7 @@ const Routes = createBrowserRouter([
       { path: "statistics", element: <PrivateRoutes><Statistics /></PrivateRoutes> },
       { path: "my-delivery-list", element: <PrivateRoutes><MyDeliveryList /></PrivateRoutes> },
       { path: "my-reviews", element: <PrivateRoutes><MyReviews /></PrivateRoutes> },
+      { path: "payment", element: <PrivateRoutes><Payment></Payment></PrivateRoutes> },
     ],
   }
 ]);

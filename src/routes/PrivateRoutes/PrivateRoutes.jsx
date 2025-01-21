@@ -13,12 +13,12 @@ import useLoadUser from '@/src/hooks/useLoadUser';
 const PrivateRoutes = ({ children }) => {
     const [webUser]=useLoadUser()
     const location = useLocation()
-    const { loading } = useContext(AuthContext)
+    const { loading,user } = useContext(AuthContext)
     if (loading) {
         return <Loading></Loading>
     }
 
-    if (webUser) {
+    if (webUser && user) {
         return children
     }
     return <Navigate to="/login" state={location.pathname}></Navigate>

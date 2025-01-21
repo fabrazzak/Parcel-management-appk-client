@@ -9,6 +9,8 @@ import Swal from "sweetalert2";
 import useAllDeliveryList from "@/src/hooks/useAllDeliveryList";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from "@/src/components/ui/alert-dialog";
 
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+
 
 
 const MyDeliveryList = () => {
@@ -19,7 +21,8 @@ const MyDeliveryList = () => {
     const [dateTo, setDateTo] = useState(null);
     const [showAlert, setShowAlert] = useState(false);
     const [selectedParcel, setSelectedParcel] = useState(null);
-    // Initial position state
+
+
 
 
 
@@ -50,8 +53,7 @@ const MyDeliveryList = () => {
         });
     };
 
-    const handleViewLocation = (data) => {
-        console.log("Selected Parcel:", data);
+    const handleViewLocation = (data) => {        
         setSelectedParcel(data); // Set the selected parcel to display location
         setShowAlert(true); // Open the location modal
     };
@@ -89,6 +91,7 @@ const MyDeliveryList = () => {
                     Total Parcels: {bookings?.length}
                 </h3>
             </div>
+
 
             <div className="flex justify-between items-center bg-gray-100 p-4 rounded-lg mb-6">
                 <div className="flex flex-wrap gap-4 items-center">
@@ -192,10 +195,31 @@ const MyDeliveryList = () => {
                 <AlertDialogContent className="bg-white p-6 rounded-lg shadow-xl">
                     <AlertDialogTitle>Location</AlertDialogTitle>
                     <AlertDialogDescription>
-                    
-                    </AlertDialogDescription>
-                    <AlertDialogAction onClick={handleConfirmCancel}>Confirm</AlertDialogAction>
-                    <AlertDialogCancel onClick={() => setShowAlert(false)}>Cancel</AlertDialogCancel>
+                        <div>
+                            {selectedParcel?.latitude ? (
+                                <MapContainer
+                                    center={ [selectedParcel.latitude ,selectedParcel.longitude] } // Replace with actual coordinates from your data
+                                    zoom={13}
+                                    scrollWheelZoom={false}
+                                    style={{ height: "400px", width: "100%" }}
+                                >
+                                    <TileLayer
+                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                    />
+                                    <Marker position={ [selectedParcel.latitude ,selectedParcel.longitude]}>
+                                        <Popup>
+                                            Location: { selectedParcel.deliveryAddress}
+                                        </Popup>
+                                    </Marker>
+                                </MapContainer>
+                            ) : (
+                                <p>No location data available</p>
+                            )}
+                        </div>
+
+                    </AlertDialogDescription>                   
+                    <AlertDialogCancel onClick={() => setShowAlert(false)}>Close</AlertDialogCancel>
                 </AlertDialogContent>
             </AlertDialog>
         </div>

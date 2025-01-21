@@ -42,7 +42,8 @@ const BookParcel = () => {
             bookingDate: new Date(),
             userId: webUser?._id,
             status: "pending",
-            photoURL:webUser?.photoURL
+            photoURL:webUser?.photoURL,
+            rating:0
         }
         refetch()
        
@@ -52,6 +53,7 @@ const BookParcel = () => {
             console.log(parcelInfo)
 
             if (response.data.acknowledged) {
+                form.reset();
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
@@ -287,8 +289,8 @@ const BookParcel = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            type="text"
-                                            placeholder="Enter latitude"
+                                            type="number"
+                                            placeholder="Example 23.8103"
                                             className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
                                         />
                                     </FormControl>
@@ -306,8 +308,8 @@ const BookParcel = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            type="text"
-                                            placeholder="Enter longitude"
+                                            type="number"
+                                            placeholder="Example 90.4125"
                                             className="w-full p-4 mt-2 rounded-lg bg-gray-100 text-gray-800 shadow-md"
                                         />
                                     </FormControl>

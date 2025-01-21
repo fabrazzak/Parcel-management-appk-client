@@ -1,4 +1,5 @@
 
+import Loading from '../components/custom/Loading/Loading';
 import useAxiosSecures from './useAxiosSecures';
 import {  useQuery } from '@tanstack/react-query';
 
@@ -9,10 +10,10 @@ const useAllGetBookParcels = () => {
         queryFn:async()=>{
             const response= await axiosSecure.get("all-book-parcels");
             return response.data;
-        }
+        }        
         
     })
-  
+   
     return {allBookParcels,refetch,isPending,isLoading,error}
 };
 

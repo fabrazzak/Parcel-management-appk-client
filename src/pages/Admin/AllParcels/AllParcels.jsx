@@ -13,31 +13,28 @@ import { useForm } from "react-hook-form";
 import useLoadUser from "@/src/hooks/useLoadUser";
 import Swal from "sweetalert2";
 import useAllDeliveryman from "@/src/hooks/useAllDeliveryman";
+import Loading from "@/src/components/custom/Loading/Loading";
 
 const AllParcels = () => {
-    const { allBookParcels, refetch } = useAllGetBookParcels();
+    const { allBookParcels, refetch, } = useAllGetBookParcels();
     const { data } = useAllDeliveryman();
     const [bookings, setBookings] = useState([...allBookParcels]);
     const [showAlert, setShowAlert] = useState(false);
-    const [webUser] = useLoadUser()
+    const [webUser] = useLoadUser();
     const form = useForm();
-    const axiosSecure = useAxiosSecures()
+    const axiosSecure = useAxiosSecures();
     const [selectedBookingId, setSelectedBookingId] = useState('null');
-
-    const [filteredBookings, setFilteredBookings] = useState([]);
-
 
     const [dateFrom, setDateFrom] = useState(null);
     const [dateTo, setDateTo] = useState(null);
 
     useEffect(() => {
-        if(allBookParcels>0){
+        const timer = setTimeout(() => {
             setBookings([...allBookParcels]);
-        }
-       
+        }, 1000); // 1-second delay
+        return () => clearTimeout(timer);
+
     }, [allBookParcels]);
-
-
 
     const handleDeliveryManFormSubmits = async (data) => {
         setShowAlert(false);
@@ -52,8 +49,6 @@ const AllParcels = () => {
         refetch();
     };
 
-
-
     const handleDateSearch = () => {
         if (!dateFrom || !dateTo) return;
 
@@ -66,16 +61,14 @@ const AllParcels = () => {
         setBookings(filtered);
     };
 
-
     const resetSearch = () => {
         setDateFrom(null);
         setDateTo(null);
         setBookings([...allBookParcels]);
     };
- 
 
     return (
-        <div className="container mx-auto p-8 rounded-lg shadow-lg bg-white overflow-x-auto  w-[360px] lg:w-full md:w-[700px]">
+        <div className="container mx-auto p-8 rounded-lg shadow-lg bg-white overflow-x-auto w-[360px] lg:w-full md:w-[700px]">
             <div className="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0">
                 <h1 className="text-3xl font-bold text-[#9538E2]">
                     All Parcels
@@ -85,18 +78,17 @@ const AllParcels = () => {
                 </h3>
             </div>
 
-
             <div className="flex justify-between items-center bg-gray-100 p-4 rounded-lg mb-6">
-
-
                 <div className="flex flex-wrap gap-4 items-center ">
                     <div className="flex items-center flex-wrap gap-4">
                         <Popover>
                             <PopoverTrigger>
-                                <Button variant="outline">
-                                    <CalendarIcon className="mr-2" />
-                                    {dateFrom ? format(dateFrom, "PPP") : "Date From"}
-                                </Button>
+                                <div className="button-like">
+                                    <Button variant="outline">
+                                        <CalendarIcon className="mr-2" />
+                                        {dateFrom ? format(dateFrom, "PPP") : "Date From"}
+                                    </Button>
+                                </div>
                             </PopoverTrigger>
                             <PopoverContent>
                                 <Calendar
@@ -110,10 +102,12 @@ const AllParcels = () => {
 
                         <Popover>
                             <PopoverTrigger>
-                                <Button variant="outline">
-                                    <CalendarIcon className="mr-2" />
-                                    {dateTo ? format(dateTo, "PPP") : "Date To"}
-                                </Button>
+                                <div className="button-like">
+                                    <Button variant="outline">
+                                        <CalendarIcon className="mr-2" />
+                                        {dateTo ? format(dateTo, "PPP") : "Date To"}
+                                    </Button>
+                                </div>
                             </PopoverTrigger>
                             <PopoverContent>
                                 <Calendar
@@ -133,15 +127,6 @@ const AllParcels = () => {
                         </Button>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
             </div>
 
             {/* Bookings Table */}
@@ -179,9 +164,7 @@ const AllParcels = () => {
                         ))}
                     </tbody>
                 </table>
-
             </div>
-
 
             <div className="w-[350px]">
                 <AlertDialog open={showAlert} onOpenChange={setShowAlert}>
@@ -266,8 +249,6 @@ const AllParcels = () => {
                                 </Button>
                             </form>
                         </Form>
-
-
 
                         <AlertDialogCancel className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">No, Keep It</AlertDialogCancel>
                     </AlertDialogContent>
