@@ -3,6 +3,7 @@ import Loading from "@/src/components/custom/Loading/Loading";
 import { Button } from "@/src/components/ui/button";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/src/components/ui/pagination";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "@/src/components/ui/table";
+import useAllGetUsers from "@/src/hooks/useAllGetUsers";
 import useAxiosSecures from "@/src/hooks/useAxiosSecures";
 import useLoadUser from "@/src/hooks/useLoadUser";
 import { useQuery } from "@tanstack/react-query";
@@ -12,23 +13,12 @@ import { toast, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 
 const AllUsers = () => {
-    const [currentPage, setCurrentPage] = useState(0);
-    const [pageCount, setPageCount] = useState(0);
-    const [webUser] = useLoadUser();
     const axiosSecure = useAxiosSecures();
+    const {data,setCurrentPage,refetch,currentPage,isPending}=useAllGetUsers()  
+  
+   
 
-    const { data, refetch, isPending } = useQuery({
-        queryKey: ["users", currentPage],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/users?page=${currentPage + 1}&limit=5`);
-            setPageCount(Math.ceil(res.data.users / 5));
-            console.log(res.data)
-            return res.data;
-        },
-        onError: (error) => {
-            console.error("Error fetching users:", error);
-        },
-    });
+   
 
     console.log(data)
 
@@ -88,11 +78,7 @@ const AllUsers = () => {
         }
     };
 
-    if (isPending) {
-        return <Loading />;
-    }
-
-    console.log(data.users)
+   
 
     return (
         <div className="p-6 bg-gray-100 rounded-lg shadow-md overflow-x-auto  w-[360px] lg:w-full md:w-[700px] mx-auto ">
