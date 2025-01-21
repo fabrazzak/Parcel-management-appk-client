@@ -43,20 +43,20 @@ const TopDeliveryMen = () => {
       >
         <div className="relative w-24 h-24 mb-4">
           <img
-            src={man.photoURL}
-            alt={man.name}
+            src={man?.photoURL}
+            alt={man?.name}
             className="w-full h-full rounded-full object-cover border-4 border-white shadow-md"
           />
         </div>
-        <h2 className="text-lg font-bold text-white">{man.name}</h2>
+        <h2 className="text-lg font-bold text-white">{man?.name}</h2>
         <p className="text-sm text-gray-200 font-semibold mt-2">
           Parcels Delivered:{" "}
-          <span className="font-semibold text-white">{man.totalParcels}</span>
+          <span className="font-semibold text-white">{man?.totalParcels}</span>
         </p>
         <p className="text-sm text-gray-200 font-semibold mt-1">
           Average Rating:{" "}
           <span className="font-semibold text-yellow-400">
-            {man.averageRating?.toFixed(2)}
+            {man?.averageRating?.toFixed(2)}
           </span>
         </p>
         <button className="mt-4 bg-white text-purple-700 px-4 py-2 rounded-full text-sm font-bold shadow-md hover:bg-gray-100 transition">
