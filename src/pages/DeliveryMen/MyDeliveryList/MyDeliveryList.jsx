@@ -10,6 +10,7 @@ import useAllDeliveryList from "@/src/hooks/useAllDeliveryList";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from "@/src/components/ui/alert-dialog";
 
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Helmet } from "react-helmet-async";
 
 
 
@@ -53,7 +54,7 @@ const MyDeliveryList = () => {
         });
     };
 
-    const handleViewLocation = (data) => {        
+    const handleViewLocation = (data) => {
         setSelectedParcel(data); // Set the selected parcel to display location
         setShowAlert(true); // Open the location modal
     };
@@ -91,6 +92,10 @@ const MyDeliveryList = () => {
                     Total Parcels: {bookings?.length}
                 </h3>
             </div>
+            <Helmet>
+                <title> My Delivery List  || Parcel Management </title>
+
+            </Helmet>
 
 
             <div className="flex justify-between items-center bg-gray-100 p-4 rounded-lg mb-6">
@@ -198,7 +203,7 @@ const MyDeliveryList = () => {
                         <div>
                             {selectedParcel?.latitude ? (
                                 <MapContainer
-                                    center={ [selectedParcel.latitude ,selectedParcel.longitude] } // Replace with actual coordinates from your data
+                                    center={[selectedParcel.latitude, selectedParcel.longitude]} // Replace with actual coordinates from your data
                                     zoom={13}
                                     scrollWheelZoom={false}
                                     style={{ height: "400px", width: "100%" }}
@@ -207,9 +212,9 @@ const MyDeliveryList = () => {
                                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                     />
-                                    <Marker position={ [selectedParcel.latitude ,selectedParcel.longitude]}>
+                                    <Marker position={[selectedParcel.latitude, selectedParcel.longitude]}>
                                         <Popup>
-                                            Location: { selectedParcel.deliveryAddress}
+                                            Location: {selectedParcel.deliveryAddress}
                                         </Popup>
                                     </Marker>
                                 </MapContainer>
@@ -218,7 +223,7 @@ const MyDeliveryList = () => {
                             )}
                         </div>
 
-                    </AlertDialogDescription>                   
+                    </AlertDialogDescription>
                     <AlertDialogCancel onClick={() => setShowAlert(false)}>Close</AlertDialogCancel>
                 </AlertDialogContent>
             </AlertDialog>

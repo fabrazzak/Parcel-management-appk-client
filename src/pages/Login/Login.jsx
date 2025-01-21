@@ -12,6 +12,7 @@ import { Separator } from '@/src/components/ui/separator';
 import { FaGoogle } from "react-icons/fa";
 import useAxiosSecures from '@/src/hooks/useAxiosSecures';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 
 const Login = () => {
     const form = useForm();
@@ -25,11 +26,11 @@ const Login = () => {
         try {
             const userCredential = await loginUser(email, password);
             const user = userCredential.user;
-            form.reset({               
+            form.reset({
                 email: "",
                 password: "",
-              });
-               Swal.fire({ title: "Account Login Successfully", icon: "success", draggable: true ,timer: 1500});
+            });
+            Swal.fire({ title: "Account Login Successfully", icon: "success", draggable: true, timer: 1500 });
             navigate(location?.state || "/");
         } catch (error) {
             console.error(error);
@@ -37,32 +38,36 @@ const Login = () => {
         }
     };
 
-  const handleGoogleLogin = async () => {
-    try {
-        const userCredential = await loginWithGoogle();
-        const result = userCredential?.user;  
-        if(result){
-            console.log(result);          
-           
-            const userInfo={
-                 displayName: result.displayName,
-                 photoURL: result.photoURL,
-                 email: result.email,
-                 role:"user"
-             }
-             Swal.fire({ title: "Account Login Successfully", icon: "success", draggable: true ,timer: 1500});
+    const handleGoogleLogin = async () => {
+        try {
+            const userCredential = await loginWithGoogle();
+            const result = userCredential?.user;
+            if (result) {
+                console.log(result);
 
-             location?.state ? navigate(location?.state) : navigate("/");    
-             await axiosSecure.post('/users', {...userInfo });
-        }    
-    
-    } catch (error) {
-        console.error(error);
-    }
-};
+                const userInfo = {
+                    displayName: result.displayName,
+                    photoURL: result.photoURL,
+                    email: result.email,
+                    role: "user"
+                }
+                Swal.fire({ title: "Account Login Successfully", icon: "success", draggable: true, timer: 1500 });
+
+                location?.state ? navigate(location?.state) : navigate("/");
+                await axiosSecure.post('/users', { ...userInfo });
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <div className="relative">
+            <Helmet>
+                <title> Login  || Parcel Management </title>
+
+            </Helmet>
             <div className="grid h-screen w-full grid-cols-1 lg:grid-cols-2">
                 {/* Lottie Animation */}
                 <div className="hidden h-screen bg-gray-100 dark:bg-gray-800 lg:block">

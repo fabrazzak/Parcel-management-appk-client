@@ -25,13 +25,14 @@ import Swal from "sweetalert2";
 import useBookParcel from "@/src/hooks/useBookParcel";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const UpdateMyParcel = () => {
   const { id } = useParams(); // Get the parcel ID from the URL
-  const { myParcels,refetch,isRefetching} = useBookParcel(); // Load parcels
+  const { myParcels, refetch, isRefetching } = useBookParcel(); // Load parcels
   const [parcel, setParcel] = useState(null); // State to store the parcel details
-  const navigate=useNavigate()
- 
+  const navigate = useNavigate()
+
 
   useEffect(() => {
     // Find the parcel by its ID
@@ -55,7 +56,7 @@ const UpdateMyParcel = () => {
       deliveryAddress: parcel?.deliveryAddress || "",
     },
   });
-  
+
   const axiosSecure = useAxiosSecures();
 
   const handleUpdateFormSubmits = async (data) => {
@@ -70,36 +71,36 @@ const UpdateMyParcel = () => {
     }
 
     const parcelInfo = {
-        ...parcel,
-        ...data,
-        price,        
+      ...parcel,
+      ...data,
+      price,
     }
     console.log(parcelInfo)
     try {
-      const response = await axiosSecure.put("update-book-parcel", { ...parcelInfo  });
-    
-      
-      if (response.data.success) {   
-        refetch()        
-          
-        
+      const response = await axiosSecure.put("update-book-parcel", { ...parcelInfo });
+
+
+      if (response.data.success) {
+        refetch()
+
+
         Swal.fire({
-              title: "Are you sure?",
-              text: `If you update it, .`,
-              icon: "warning",              
-              confirmButtonColor: "#3085d6",              
-              confirmButtonText: "okay",
-            }).then(async (result) => {
-              if (result.isConfirmed) {  
-                navigate(-1)           
-              
-
-              }
-            });
+          title: "Are you sure?",
+          text: `If you update it, .`,
+          icon: "warning",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "okay",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            navigate(-1)
 
 
-        
-       
+          }
+        });
+
+
+
+
       }
     } catch (error) {
       Swal.fire({
@@ -117,6 +118,10 @@ const UpdateMyParcel = () => {
         <h1 className="text-3xl font-extrabold text-center text-purple-600 mb-8">
           Update parcel information
         </h1>
+        <Helmet>
+          <title> Update Parcel || Parcel Management </title>
+
+        </Helmet>
 
         <Form {...form}>
           <form

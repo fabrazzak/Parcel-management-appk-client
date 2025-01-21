@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts'; // Assuming you installed react-apexcharts
 import { ChartBar, LineChart } from 'lucide-react';
 import useAxiosSecures from '@/src/hooks/useAxiosSecures';
+import { Helmet } from 'react-helmet-async';
 
 const Statistics = () => {
-    
+
     const axiosSecures = useAxiosSecures();
 
     const [barChartData, setBarChartData] = useState(null);
@@ -15,21 +16,21 @@ const Statistics = () => {
             try {
                 const response = await axiosSecures.get('chart-data');
 
-               
-                let totalCanceled=[]
-              
+
+                let totalCanceled = []
+
                 const delivered = response?.data?.parcelsByStatus?.map((m) => {
-                    if (m.status == "pending" ||  m.status == "on-the-way") {
-                        totalCanceled.push(0) 
+                    if (m.status == "pending" || m.status == "on-the-way") {
+                        totalCanceled.push(0)
                         return 0
-                    }else if (m.status == "canceled" ) {
-                        return totalCanceled.push(m.count) 
+                    } else if (m.status == "canceled") {
+                        return totalCanceled.push(m.count)
                     }
-                    totalCanceled.push(0) 
+                    totalCanceled.push(0)
                     return m.count;
 
                 })
-              
+
 
 
 
@@ -40,7 +41,7 @@ const Statistics = () => {
                             type: 'bar',
                             height: 470,
                         },
-                        
+
                         plotOptions: {
                             bar: {
                                 horizontal: false,
@@ -78,7 +79,7 @@ const Statistics = () => {
                     options: {
                         chart: {
                             type: 'line',
-                            height:450,
+                            height: 450,
                         },
                         dataLabels: {
                             enabled: false,
@@ -104,13 +105,14 @@ const Statistics = () => {
                     series: [
                         {
                             name: 'Booked Parcels',
-                            data: response.data.monthlyParcels.map((m) => m.totalParcels) },
+                            data: response.data.monthlyParcels.map((m) => m.totalParcels)
+                        },
                         {
                             name: 'Delivered Parcels',
-                            data: delivered, 
-                        },{
+                            data: delivered,
+                        }, {
                             name: 'Canceled Parcels',
-                            data: totalCanceled, 
+                            data: totalCanceled,
                         }
                     ],
                 });
@@ -118,7 +120,7 @@ const Statistics = () => {
                 console.error('Error fetching chart data:', error);
             }
         };
-        
+
         console.log("hello")
 
         fetchData();
@@ -130,6 +132,11 @@ const Statistics = () => {
             <h1 className="text-3xl font-bold text-[#9538E2] mb-10">
                 Admin Dashboard: Statistics
             </h1>
+
+            <Helmet>
+                <title> Statistics  || Parcel Management </title>
+
+            </Helmet>
             <div className=" grid grid-cols-2 gap-8   ">
 
 

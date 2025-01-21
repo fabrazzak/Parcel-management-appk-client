@@ -4,13 +4,14 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "@/src/components/ui/table";
 import useAllDeliveryman from "@/src/hooks/useAllDeliveryman";
 import { Rating } from "@mui/material";
+import { Helmet } from "react-helmet-async";
 import { toast, ToastContainer } from "react-toastify";
 
 const AllDeliveryMen = () => {
-   const {data,currentPage,setCurrentPage,isLoading}=useAllDeliveryman();
-   
-   console.log(data,"all delivery amn")
- 
+    const { data, currentPage, setCurrentPage, isLoading } = useAllDeliveryman();
+
+    console.log(data, "all delivery amn")
+
 
     const handlePageClick = (value) => {
         if (value === "increase") {
@@ -44,6 +45,10 @@ const AllDeliveryMen = () => {
                     Total Delivery Man : {data?.totalDeliveryMan}
                 </h3>
             </div>
+            <Helmet>
+                <title> All Delivery || Man Parcel Management </title>
+                
+            </Helmet>
 
             {/* Table */}
             <div className=" rounded-lg border border-gray-300 mb-6">
@@ -57,25 +62,25 @@ const AllDeliveryMen = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                      { isLoading ? <Loading></Loading> :
-                      
-                      data?.deliveryMan?.map((user, index) => (
-                        <TableRow key={index} className="hover:bg-gray-50 divide-x-2 divide-gray-200 transition-colors">
-                            <TableCell className="px-4 py-3 sm:px-6 font-medium text-gray-800">{user.displayName}</TableCell>
-                            <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user?.phoneNumber} </TableCell>
-                            <TableCell
-                                className={`px-4 py-3 sm:px-6 capitalize font-semibold `}
-                            >
-                                {user.parcelDelivered
-                                }
-                            </TableCell>
-                            <TableCell className="px-4 py-3 sm:px-6 text-center"> 
-                                {user?.reviewAverage == 0 ? "N/A": <div className=" flex content-center items-center gap-2 font-bold"><Rating name="read-only" value={user.reviewAverage} readOnly />{ user.reviewAverage}</div> }                                   
-                                                                     
-                            </TableCell>
-                          
-                        </TableRow>
-                    ))}
+                        {isLoading ? <Loading></Loading> :
+
+                            data?.deliveryMan?.map((user, index) => (
+                                <TableRow key={index} className="hover:bg-gray-50 divide-x-2 divide-gray-200 transition-colors">
+                                    <TableCell className="px-4 py-3 sm:px-6 font-medium text-gray-800">{user.displayName}</TableCell>
+                                    <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user?.phoneNumber} </TableCell>
+                                    <TableCell
+                                        className={`px-4 py-3 sm:px-6 capitalize font-semibold `}
+                                    >
+                                        {user.parcelDelivered
+                                        }
+                                    </TableCell>
+                                    <TableCell className="px-4 py-3 sm:px-6 text-center">
+                                        {user?.reviewAverage == 0 ? "N/A" : <div className=" flex content-center items-center gap-2 font-bold"><Rating name="read-only" value={user.reviewAverage} readOnly />{user.reviewAverage}</div>}
+
+                                    </TableCell>
+
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
             </div>
@@ -93,7 +98,7 @@ const AllDeliveryMen = () => {
                                     onClick={() => handlePageClick(index)}
                                     href="#"
                                     isActive={index === currentPage}
-                                    className={`text-white  rounded-full w-8 h-8 flex justify-center items-center ${ index === currentPage ? "bg-gray-900 text-white hover:bg-purple-700 ":"bg-purple-600 hover:bg-purple-700"}`}
+                                    className={`text-white  rounded-full w-8 h-8 flex justify-center items-center ${index === currentPage ? "bg-gray-900 text-white hover:bg-purple-700 " : "bg-purple-600 hover:bg-purple-700"}`}
                                 >
                                     {index + 1}
                                 </PaginationLink>

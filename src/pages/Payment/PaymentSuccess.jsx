@@ -4,18 +4,23 @@ import ReactConfetti from 'react-confetti';
 import { useNavigate } from 'react-router-dom'; // Use `useNavigate` from `react-router-dom` to handle routing
 import { CheckCircle } from 'lucide-react';
 import { Button } from '@/src/components/ui/button';
+import { Helmet } from 'react-helmet-async';
 
 const PaymentSuccess = () => {
   const navigate = useNavigate(); // Set up navigation
 
   // To get the window dimensions for confetti
-  const width = window.innerWidth -100;
+  const width = window.innerWidth - 100;
   const height = window.innerHeight;
 
   return (
     <div className="flex flex-col  items-center justify-center min-h-screen bg-gradient-to-br rounded-md from-purple-600 to-indigo-800 text-white">
       {/* Confetti Effect */}
-      <ReactConfetti width={width} height={height}  recycle={false} />
+      <ReactConfetti width={width} height={height} recycle={false} />
+      <Helmet>
+        <title> Payment Success  || Parcel Management </title>
+
+      </Helmet>
 
       {/* Success Message */}
       <div className="bg-white text-gray-800 rounded-lg shadow-lg p-8 md:p-12 text-center max-w-md ">

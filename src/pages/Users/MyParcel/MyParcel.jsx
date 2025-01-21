@@ -11,6 +11,7 @@ import { Textarea } from "@/src/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { Rating } from "@mui/material";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 
 const MyParcel = () => {
@@ -26,13 +27,13 @@ const MyParcel = () => {
   const axiosSecure = useAxiosSecures()
 
 
-  
-  useEffect(() => {   
-    const timer = setTimeout(() => {               
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
       setParcels([...myParcels]);
-  }, 1000); 
-   return () => clearTimeout(timer);
-   
+    }, 1000);
+    return () => clearTimeout(timer);
+
   }, [myParcels]);
 
 
@@ -106,9 +107,13 @@ const MyParcel = () => {
   };
 
 
-  
+
   return (
     <div>
+      <Helmet>
+        <title> My Parcels || Parcel Management </title>
+
+      </Helmet>
 
 
       <div className="container mx-auto p-8 rounded-lg shadow-lg bg-white">
@@ -140,12 +145,12 @@ const MyParcel = () => {
             </tr>
           </thead>
 
-          
+
           {
             parcels?.length == 0 ? <p className="text-center w-full flex  py-10 justify-center text-2xl font-bold"> Not Available</p> :
 
               <tbody>
-              
+
 
                 {filteredParcels.map((parcel) => (
                   <tr key={parcel.id} className="hover:bg-[#f3f3f3]">
@@ -198,12 +203,12 @@ const MyParcel = () => {
                               </Button>
                             )}
                             {parcel.status === "delivered" && (
-                             <Link to="/dashboard/payment">
-                              <Button
-                                className="w-full text-left px-4 py-2 text-white  bg-green-500 hover:bg-green-600"
-                              >
-                                Pay
-                              </Button>
+                              <Link to="/dashboard/payment">
+                                <Button
+                                  className="w-full text-left px-4 py-2 text-white  bg-green-500 hover:bg-green-600"
+                                >
+                                  Pay
+                                </Button>
                               </Link>
                             )}
                           </div>

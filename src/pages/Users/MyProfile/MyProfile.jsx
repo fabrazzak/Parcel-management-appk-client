@@ -4,10 +4,11 @@ import { Input } from "@/src/components/ui/input";
 import useAxiosSecures from "@/src/hooks/useAxiosSecures";
 import useLoadUser from "@/src/hooks/useLoadUser";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 
 const MyProfile = () => {
-  const [webUser,refetch] = useLoadUser();
+  const [webUser, refetch] = useLoadUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newProfilePic, setNewProfilePic] = useState(null); // To store the selected profile picture
   const imageBbApi = import.meta.env.VITE_IMAGEbb_API;
@@ -30,22 +31,22 @@ const MyProfile = () => {
         const res = await axiosSecure.post(imageBbUrl, formData);
 
         if (res.data && res.data.success) {
-          const uploadedImageUrl = res.data.data.url; 
-        const resUpdate=  await axiosSecure.put('/users-photourl',{email:webUser.email,photoURL:uploadedImageUrl})
+          const uploadedImageUrl = res.data.data.url;
+          const resUpdate = await axiosSecure.put('/users-photourl', { email: webUser.email, photoURL: uploadedImageUrl })
 
-        if(resUpdate.status == 200){
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Photo update done",
-            showConfirmButton: false,
-            timer: 1500
-          });
-          refetch()
+          if (resUpdate.status == 200) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Photo update done",
+              showConfirmButton: false,
+              timer: 1500
+            });
+            refetch()
 
-        }          
+          }
 
-          setIsModalOpen(false); 
+          setIsModalOpen(false);
         } else {
           console.error("ImgBB upload failed:", res.data);
         }
@@ -58,6 +59,10 @@ const MyProfile = () => {
   return (
     <div className="flex items-center justify-center">
       <div className="w-full p-8 bg-white rounded-2xl shadow-2xl">
+        <Helmet>
+          <title> My Profile|| Parcel Management </title>
+
+        </Helmet>
         <h1 className="text-3xl font-extrabold text-center text-purple-600 mb-8">
           My Profile
         </h1>

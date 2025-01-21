@@ -3,13 +3,14 @@ import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import useAxiosSecures from '@/src/hooks/useAxiosSecures';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 const CheckOutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     const [loading, setLoading] = useState(false);
-    const axiosSecures=useAxiosSecures()
-    const navigate=useNavigate()
+    const axiosSecures = useAxiosSecures()
+    const navigate = useNavigate()
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -35,7 +36,7 @@ const CheckOutForm = () => {
                 }
             );
 
-            if(paymentIntent.status =="succeeded"){
+            if (paymentIntent.status == "succeeded") {
                 navigate("/dashboard/payment-success")
             }
 
@@ -54,6 +55,7 @@ const CheckOutForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="shadow-lg p-8">
+            
             <CardElement
                 className="p-2 rounded-lg border"
                 options={{

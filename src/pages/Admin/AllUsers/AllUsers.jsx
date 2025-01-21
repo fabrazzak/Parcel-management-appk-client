@@ -7,6 +7,7 @@ import useAxiosSecures from "@/src/hooks/useAxiosSecures";
 import useLoadUser from "@/src/hooks/useLoadUser";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { toast, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 
@@ -103,6 +104,10 @@ const AllUsers = () => {
                     Total Users: {data?.totalUsers}
                 </h3>
             </div>
+            <Helmet>
+                <title> All Users || Parcel Management </title>
+
+            </Helmet>
 
             {/* Table */}
             <div className=" rounded-lg border border-gray-300 mb-6">
@@ -121,7 +126,7 @@ const AllUsers = () => {
                         {data?.users?.map((user, index) => (
                             <TableRow key={index} className="hover:bg-gray-50 divide-x-2 divide-gray-200 transition-colors">
                                 <TableCell className="px-4 py-3 sm:px-6 font-medium text-gray-800">{user.displayName}</TableCell>
-                                <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user?.phoneNumber }</TableCell>
+                                <TableCell className="px-4 py-3 sm:px-6 text-gray-600">{user?.phoneNumber}</TableCell>
                                 <TableCell
                                     className='px-4 py-3 sm:px-6 capitalize font-semibold' >
                                     {user?.parcelsBooked}
@@ -132,8 +137,8 @@ const AllUsers = () => {
                                 <TableCell className="px-4 py-3 sm:px-6 text-center">
                                     <Button
                                         className={`text-white ${user.role === "admin"
-                                                ? "hover:bg-red-600 bg-red-500"
-                                                : "hover:bg-indigo-700 bg-indigo-600"
+                                            ? "hover:bg-red-600 bg-red-500"
+                                            : "hover:bg-indigo-700 bg-indigo-600"
                                             }`}
                                         onClick={() => handleRoleChange(user.email, user.role === "admin" ? "user" : "admin")}
                                     >
@@ -168,7 +173,7 @@ const AllUsers = () => {
                                     onClick={() => handlePageClick(index)}
                                     href="#"
                                     isActive={index === currentPage}
-                                    className={`text-white  rounded-full w-8 h-8 flex justify-center items-center ${ index === currentPage ? "bg-gray-900 text-white hover:bg-purple-700 ":"bg-purple-600 hover:bg-purple-700"}`}
+                                    className={`text-white  rounded-full w-8 h-8 flex justify-center items-center ${index === currentPage ? "bg-gray-900 text-white hover:bg-purple-700 " : "bg-purple-600 hover:bg-purple-700"}`}
                                 >
                                     {index + 1}
                                 </PaginationLink>

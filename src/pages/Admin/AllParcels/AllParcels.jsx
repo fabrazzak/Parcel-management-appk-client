@@ -14,6 +14,7 @@ import useLoadUser from "@/src/hooks/useLoadUser";
 import Swal from "sweetalert2";
 import useAllDeliveryman from "@/src/hooks/useAllDeliveryman";
 import Loading from "@/src/components/custom/Loading/Loading";
+import { Helmet } from "react-helmet-async";
 
 const AllParcels = () => {
     const { allBookParcels, refetch, } = useAllGetBookParcels();
@@ -77,6 +78,10 @@ const AllParcels = () => {
                     Total Parcels: {bookings?.length}
                 </h3>
             </div>
+            <Helmet>
+                <title> All Parcels  || Parcel Management </title>
+
+            </Helmet>
 
             <div className="flex justify-between items-center bg-gray-100 p-4 rounded-lg mb-6">
                 <div className="flex flex-wrap gap-4 items-center ">

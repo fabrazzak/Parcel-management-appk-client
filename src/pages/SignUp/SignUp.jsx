@@ -13,6 +13,7 @@ import useAxiosSecures from '@/src/hooks/useAxiosSecures';
 import { FaGoogle } from 'react-icons/fa';
 import { Separator } from '@/src/components/ui/separator';
 import useLoadUser from '@/src/hooks/useLoadUser';
+import { Helmet } from 'react-helmet-async';
 
 const SignUp = () => {
   const { createUser, profileUpdate, loginWithGoogle } = useContext(AuthContext);
@@ -20,11 +21,11 @@ const SignUp = () => {
   const axiosSecure = useAxiosSecures();
   const location = useLocation();
   const navigate = useNavigate();
-  const [webUser,refetch]=useLoadUser()
+  const [webUser, refetch] = useLoadUser()
 
   const handleRegister = async (data) => {
-    const { name, photoUrl, email, password,phoneNumber } = data;
-    const userInfo = { displayName: name, photoURL: photoUrl, role: "user" ,phoneNumber};
+    const { name, photoUrl, email, password, phoneNumber } = data;
+    const userInfo = { displayName: name, photoURL: photoUrl, role: "user", phoneNumber };
 
     try {
       const userCredential = await createUser(email, password);
@@ -86,6 +87,10 @@ const SignUp = () => {
 
   return (
     <div className="relative">
+      <Helmet>
+        <title> Sign Up || Parcel Management </title>
+
+      </Helmet>
       <div className="grid h-screen w-full grid-cols-1 lg:grid-cols-2">
         {/* Lottie Animation */}
         <div className="hidden h-screen bg-gray-100 dark:bg-gray-800 lg:block">
@@ -171,7 +176,7 @@ const SignUp = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input type="password" required  placeholder="Type your Password" {...field} />
+                        <Input type="password" required placeholder="Type your Password" {...field} />
                       </FormControl>
                       <FormLabel>
                         Already have an account? <Link to="/login" className="text-[#9538E2]">Login here</Link>

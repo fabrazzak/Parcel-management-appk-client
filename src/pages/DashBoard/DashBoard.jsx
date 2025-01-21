@@ -9,20 +9,21 @@ import useAllMenuItems from '@/src/hooks/useAllMenuItems';
 import { GlobeIcon } from '@/src/components/icons/Icon';
 import { MenuIcon } from 'lucide-react';
 import Loading from '@/src/components/custom/Loading/Loading';
+import { Helmet } from 'react-helmet-async';
 
 const DashBoard = () => {
-  const { isActive, setIsActive,loading } = useContext(AuthContext);
-  
- 
-  const navItems=useAllMenuItems();
+  const { isActive, setIsActive, loading } = useContext(AuthContext);
+
+
+  const navItems = useAllMenuItems();
   console.log(navItems)
-  
+
 
   const renderNav = () =>
-    navItems?.map((menu) => (   
-       
+    navItems?.map((menu) => (
+
       <Link
-    
+
         key={menu.id}
         onClick={() => setIsActive(menu.id)}
         to={menu.to}
@@ -35,6 +36,10 @@ const DashBoard = () => {
 
   return (
     <div className="flex w-full">
+      <Helmet>
+        <title> Dashboard || Parcel Management </title>
+
+      </Helmet>
       {/* Sidebar */}
       <div className="hidden lg:block lg:w-64 lg:shrink-0 lg:border-r bg-[#9538E2] text-white">
         <div className="sticky top-0 flex flex-col h-screen justify-between py-6 px-4">
@@ -82,8 +87,8 @@ const DashBoard = () => {
 
         {/* Outlet for rendering child routes */}
         <main className="p-4 lg:p-8">
-           {loading ? <Loading></Loading> :  <Outlet />}
-         
+          {loading ? <Loading></Loading> : <Outlet />}
+
         </main>
       </div>
     </div>

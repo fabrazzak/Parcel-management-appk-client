@@ -12,10 +12,11 @@ import useLoadUser from "@/src/hooks/useLoadUser";
 import useAxiosSecures from "@/src/hooks/useAxiosSecures";
 import Swal from "sweetalert2";
 import useBookParcel from "@/src/hooks/useBookParcel";
+import { Helmet } from "react-helmet-async";
 
 const BookParcel = () => {
     const [webUser] = useLoadUser()
-    const { myParcels,refetch } = useBookParcel(); 
+    const { myParcels, refetch } = useBookParcel();
 
     const form = useForm();
     const axiosSecure = useAxiosSecures()
@@ -42,11 +43,11 @@ const BookParcel = () => {
             bookingDate: new Date(),
             userId: webUser?._id,
             status: "pending",
-            photoURL:webUser?.photoURL,
-            rating:0
+            photoURL: webUser?.photoURL,
+            rating: 0
         }
         refetch()
-       
+
 
         try {
             const response = await axiosSecure.post("book-parcel", { ...parcelInfo })
@@ -83,6 +84,10 @@ const BookParcel = () => {
 
     return (
         <div className="  flex items-center justify-center">
+            <Helmet>
+                <title> Book Parcels || Parcel Management </title>
+
+            </Helmet>
             <div className=" w-full p-8 bg-white rounded-2xl shadow-2xl">
                 <h1 className="text-3xl font-extrabold text-center text-purple-600 mb-8">
                     Book a Parcel

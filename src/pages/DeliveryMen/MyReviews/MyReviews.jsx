@@ -4,10 +4,11 @@ import { Badge } from "@/src/components/ui/badge";
 import useAllReviews from "@/src/hooks/useAllRevies";
 import Loading from "@/src/components/custom/Loading/Loading";
 import { Rating } from "@mui/material";
+import { Helmet } from "react-helmet-async";
 
 const MyReviews = () => {
   const { reviews, refetch, isLoading, isPending } = useAllReviews();
-  console.log(reviews,"hello ")
+  console.log(reviews, "hello ")
 
   if (isLoading) {
     return (
@@ -23,6 +24,11 @@ const MyReviews = () => {
           className="p-4 transition-transform transform hover:scale-105 shadow-lg rounded-lg bg-white"
         >
           <CardHeader>
+
+            <Helmet>
+              <title> My Reviews || Parcel Management </title>
+
+            </Helmet>
             <div className="flex items-center gap-4">
               <div className="rounded-full bg-gray-100 p-1.5">
                 <img
