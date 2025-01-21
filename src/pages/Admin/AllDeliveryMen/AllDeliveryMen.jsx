@@ -75,7 +75,7 @@ const AllDeliveryMen = () => {
                                         }
                                     </TableCell>
                                     <TableCell className="px-4 py-3 sm:px-6 text-center">
-                                        {user?.reviewAverage == 0 ? "N/A" : <div className=" flex content-center items-center gap-2 font-bold"><Rating name="read-only" value={user.reviewAverage} readOnly />{user?.reviewAverage?.slice(0,4)}</div>}
+                                        {user?.reviewAverage == 0 ? "N/A" : <div className=" flex content-center items-center gap-2 font-bold"><Rating name="read-only" value={user.reviewAverage} readOnly />{user?.reviewAverage?.toFixed(2)}</div>}
 
                                     </TableCell>
 
