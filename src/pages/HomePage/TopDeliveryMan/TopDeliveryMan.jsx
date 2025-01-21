@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import useAxiosSecures from "@/src/hooks/useAxiosSecures";
+import Loading from "@/src/components/custom/Loading/Loading";
 
 const TopDeliveryMen = () => {
   const [deliveryMen, setDeliveryMen] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  console.log(deliveryMen)
+
+  
+  console.log(deliveryMen,"top deliveryman")
 
   useEffect(() => {
     // Fetch data from the backend API
     const fetchDeliveryMen = async () => {
       try {
-        const response = await axios.get('https://percel-management-app-server.vercel.app' );
+        const response = await axios.get('https://percel-management-app-server.vercel.app/top-delivery-men' );
         setDeliveryMen(response.data);
         setLoading(false);
       } catch (err) {
@@ -23,7 +27,7 @@ const TopDeliveryMen = () => {
     fetchDeliveryMen();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p><Loading></Loading></p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
@@ -32,9 +36,9 @@ const TopDeliveryMen = () => {
     Top Delivery Men
   </h1>
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    {deliveryMen.map((man) => (
+    {[...deliveryMen]?.map((man,index) => (
       <div
-        key={man.deliveryManID}
+        key={index}
         className="bg-gradient-to-r from-purple-500 to-purple-700 shadow-lg rounded-xl p-6 flex flex-col items-center hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
       >
         <div className="relative w-24 h-24 mb-4">
@@ -52,7 +56,7 @@ const TopDeliveryMen = () => {
         <p className="text-sm text-gray-200 font-semibold mt-1">
           Average Rating:{" "}
           <span className="font-semibold text-yellow-400">
-            {man.averageRating.toFixed(2)}
+            {man.averageRating?.toFixed(2)}
           </span>
         </p>
         <button className="mt-4 bg-white text-purple-700 px-4 py-2 rounded-full text-sm font-bold shadow-md hover:bg-gray-100 transition">
