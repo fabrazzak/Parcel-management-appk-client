@@ -31,7 +31,10 @@ const AllParcels = () => {
     const [dateTo, setDateTo] = useState(null);
 
     useEffect(() => {
-        setBookings([...allBookParcels]);
+        if(allBookParcels>0){
+            setBookings([...allBookParcels]);
+        }
+       
     }, [allBookParcels]);
 
 

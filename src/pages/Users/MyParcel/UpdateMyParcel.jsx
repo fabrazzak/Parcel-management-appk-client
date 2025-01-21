@@ -28,9 +28,10 @@ import { useEffect, useState } from "react";
 
 const UpdateMyParcel = () => {
   const { id } = useParams(); // Get the parcel ID from the URL
-  const { myParcels,refetch} = useBookParcel(); // Load parcels
+  const { myParcels,refetch,isRefetching} = useBookParcel(); // Load parcels
   const [parcel, setParcel] = useState(null); // State to store the parcel details
   const navigate=useNavigate()
+ 
 
   useEffect(() => {
     // Find the parcel by its ID
@@ -76,19 +77,29 @@ const UpdateMyParcel = () => {
     console.log(parcelInfo)
     try {
       const response = await axiosSecure.put("update-book-parcel", { ...parcelInfo  });
+    
       
-      if (response.status==200) {       
+      if (response.data.success) {   
+        refetch()        
           
         
         Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Your parcel is updated successfully",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        refetch()
-        navigate(-1)
+              title: "Are you sure?",
+              text: `If you update it, .`,
+              icon: "warning",              
+              confirmButtonColor: "#3085d6",              
+              confirmButtonText: "okay",
+            }).then(async (result) => {
+              if (result.isConfirmed) {  
+                navigate(-1)           
+              
+
+              }
+            });
+
+
+        
+       
       }
     } catch (error) {
       Swal.fire({

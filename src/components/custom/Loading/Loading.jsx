@@ -5,8 +5,8 @@ const Loading = () => {
 
     useEffect(() => {
       const timer = setInterval(() => {
-        setCount((prev) => (prev < 100 ? prev + 10 : 100));
-      }, 500);
+        setCount((prev) => (prev < 50 ? prev + 10 : 100));
+      }, 100);
   
       return () => clearInterval(timer);
     }, []);

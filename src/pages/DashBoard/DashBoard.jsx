@@ -15,11 +15,14 @@ const DashBoard = () => {
   
  
   const navItems=useAllMenuItems();
+  console.log(navItems)
   
 
   const renderNav = () =>
-    navItems?.map((menu) => (
+    navItems?.map((menu) => (   
+       
       <Link
+    
         key={menu.id}
         onClick={() => setIsActive(menu.id)}
         to={menu.to}

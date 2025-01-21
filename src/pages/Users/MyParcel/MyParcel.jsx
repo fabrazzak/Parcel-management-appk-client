@@ -25,9 +25,14 @@ const MyParcel = () => {
 
   const axiosSecure = useAxiosSecures()
 
-  useEffect(() => {
-    setParcels([...myParcels]);
 
+  
+  useEffect(() => {
+    if(myParcels.length >0){
+      console.log(myParcels)
+      setParcels([...myParcels]);
+    }
+   
   }, [myParcels]);
 
 
