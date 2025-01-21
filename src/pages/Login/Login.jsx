@@ -13,6 +13,7 @@ import { FaGoogle } from "react-icons/fa";
 import useAxiosSecures from '@/src/hooks/useAxiosSecures';
 import Swal from 'sweetalert2';
 import { Helmet } from 'react-helmet-async';
+import { toast } from '@/src/hooks/use-toast';
 
 const Login = () => {
     const form = useForm();
@@ -34,7 +35,7 @@ const Login = () => {
             navigate(location?.state || "/");
         } catch (error) {
             console.error(error);
-            alert('Email or Password invalid');
+            toast('Email or Password invalid');
         }
     };
 
