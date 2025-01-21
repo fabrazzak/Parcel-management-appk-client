@@ -18,9 +18,6 @@ const AllUsers = () => {
   
    
 
-   
-
-    console.log(data)
 
     const handleRoleChange = async (email, role) => {
         try {
@@ -78,6 +75,7 @@ const AllUsers = () => {
         }
     };
 
+    console.log(data?.users)
    
 
     return (
