@@ -1,16 +1,18 @@
 import axios from "axios";
 import { useEffect } from "react";
 
+
+
+const instance = axios.create({
+  // baseURL:`${import.meta.env.VITE_LIVE_UR}`,
+  baseURL: 'https://percel-management-app-server.vercel.app/',
+});
+
 const useAxiosSecures = (navigate) => {
-  const instance = axios.create({
-    baseURL:`${import.meta.env.VITE_LIVE_UR}/`
-    // baseURL: 'https://percel-management-app-server.vercel.app/',
-  });
+
 
   useEffect(() => {
     // Request Interceptor
-
-    
     instance.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem("token");
@@ -22,7 +24,7 @@ const useAxiosSecures = (navigate) => {
       (error) => Promise.reject(error)
     );
 
-
+    // Response Interceptor
     instance.interceptors.response.use(
       (response) => response,
       async (error) => {
@@ -33,8 +35,8 @@ const useAxiosSecures = (navigate) => {
         return Promise.reject(error);
       }
     );
-   
-  }, []);
+
+  }, [navigate]);
 
   return instance;
 };
