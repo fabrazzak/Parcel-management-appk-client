@@ -42,7 +42,7 @@ const TopDeliveryMen = () => {
         className="bg-gradient-to-r from-purple-500 to-purple-700 shadow-lg rounded-xl p-6 flex flex-col items-center hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
       >
         <div className="relative w-24 h-24 mb-4">
-          <img
+          <img referrerPolicy="no-referrer"
             src={man?.photoURL}
             alt={man?.name}
             className="w-full h-full rounded-full object-cover border-4 border-white shadow-md"
@@ -56,7 +56,7 @@ const TopDeliveryMen = () => {
         <p className="text-sm text-gray-200 font-semibold mt-1">
           Average Rating:{" "}
           <span className="font-semibold text-yellow-400">
-            {man?.averageRating?.toFixed(2)}
+            {man?.averageRating?.slice(0,4)}
           </span>
         </p>
         <button className="mt-4 bg-white text-purple-700 px-4 py-2 rounded-full text-sm font-bold shadow-md hover:bg-gray-100 transition">

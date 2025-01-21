@@ -128,9 +128,9 @@ const SignUp = () => {
                   name="phoneNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Photo URL</FormLabel>
+                      <FormLabel>Phone Number</FormLabel>
                       <FormControl>
-                        <Input type="text" required placeholder="Type your Phone Number" {...field} />
+                        <Input type="tel" required placeholder="Type your Phone Number" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -144,7 +144,7 @@ const SignUp = () => {
                     <FormItem>
                       <FormLabel>Photo URL</FormLabel>
                       <FormControl>
-                        <Input type="text" required placeholder="Type your Photo URL" {...field} />
+                        <Input type="text"  required placeholder="Type your Photo URL" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
