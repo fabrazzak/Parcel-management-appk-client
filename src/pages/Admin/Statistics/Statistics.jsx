@@ -4,6 +4,7 @@ import { ChartBar, LineChart } from 'lucide-react';
 import useAxiosSecures from '@/src/hooks/useAxiosSecures';
 
 const Statistics = () => {
+    
     const axiosSecures = useAxiosSecures();
 
     const [barChartData, setBarChartData] = useState(null);
@@ -28,7 +29,7 @@ const Statistics = () => {
                     return m.count;
 
                 })
-                console.log(delivered)
+              
 
 
 
@@ -117,6 +118,8 @@ const Statistics = () => {
                 console.error('Error fetching chart data:', error);
             }
         };
+        
+        console.log("hello")
 
         fetchData();
     }, [axiosSecures]);

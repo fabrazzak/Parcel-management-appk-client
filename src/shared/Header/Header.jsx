@@ -12,6 +12,7 @@ import { AuthContext } from "@/src/components/custom/ContextProvider";
 import { HomeIcon } from "lucide-react";
 import { AiOutlineLogin } from "react-icons/ai"
 import useLoadUser from "@/src/hooks/useLoadUser";
+import useAxiosSecures from "@/src/hooks/useAxiosSecures";
 
 
 const Header = () => {
@@ -19,6 +20,7 @@ const Header = () => {
     const { user, signOutUser, isActive, setIsActive } = useContext(AuthContext)
     const navigate = useNavigate();
     const [webUser] = useLoadUser()
+    const axiosInstance = useAxiosSecures(navigate);
 
 
 

@@ -12,9 +12,11 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 
+
 export const AuthContext = createContext(null);
 
 const ContextProvider = ({ children }) => {
+ 
   const [loading, setLoading] = useState(true);
   const axiosSecures = useAxiosSecures();
   const [user, setUser] = useState(null);
@@ -42,6 +44,8 @@ const ContextProvider = ({ children }) => {
 
   // Sign out user
   const signOutUser = () => {
+    localStorage.removeItem('token');
+    setUser(null);
     return signOut(auth);
   };
 

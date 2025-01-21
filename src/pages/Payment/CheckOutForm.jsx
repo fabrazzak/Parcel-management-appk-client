@@ -21,7 +21,7 @@ const CheckOutForm = () => {
 
         setLoading(true);
         try {
-            const { data } = await axiosSecures.post('http://localhost:5000/create-payment-intent', {
+            const { data } = await axiosSecures.post('https://percel-management-app-server.vercel.app/create-payment-intent', {
                 amount: 1000,
                 currency: 'usd',
             });
