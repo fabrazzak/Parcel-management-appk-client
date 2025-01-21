@@ -8,7 +8,7 @@ const useAllGetUsers = () => {
       const [currentPage, setCurrentPage] = useState(0);
       const [pageCount, setPageCount] = useState(0);
       const [webUser] = useLoadUser();
-     const { data, refetch, isPending } = useQuery({
+     const { data, refetch, isPending,isLoading } = useQuery({
             queryKey: ["users", currentPage],
             queryFn: async () => {
                 const res = await axiosSecure.get(`/users?page=${currentPage + 1}&limit=5`);
@@ -21,7 +21,7 @@ const useAllGetUsers = () => {
             },
         });
 
-    return  {data,setCurrentPage,refetch,currentPage,isPending}
+    return  {data,setCurrentPage,refetch,currentPage,isPending,isLoading}
 };
 
 export default useAllGetUsers;

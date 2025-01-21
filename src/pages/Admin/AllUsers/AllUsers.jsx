@@ -14,7 +14,7 @@ import Swal from "sweetalert2";
 
 const AllUsers = () => {
     const axiosSecure = useAxiosSecures();
-    const {data,setCurrentPage,refetch,currentPage,isPending}=useAllGetUsers()  
+    const {data,setCurrentPage,refetch,currentPage,isPending,isLoading}=useAllGetUsers()  
   
    
 
@@ -75,8 +75,10 @@ const AllUsers = () => {
         }
     };
 
-    console.log(data?.users)
-   
+  
+   if(isLoading){
+    return <Loading></Loading>
+   }
 
     return (
         <div className="p-6 bg-gray-100 rounded-lg shadow-md overflow-x-auto  w-[360px] lg:w-full md:w-[700px] mx-auto ">
