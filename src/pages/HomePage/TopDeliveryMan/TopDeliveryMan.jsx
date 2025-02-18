@@ -59,7 +59,7 @@ const TopDeliveryMen = () => {
             {man?.averageRating?.slice(0,4)}
           </span>
         </p>
-        <button className="mt-4 bg-white text-purple-700 px-4 py-2 rounded-full text-sm font-bold shadow-md hover:bg-gray-100 transition">
+        <button className="mt-4 bg-white text-purple-700 px-4 py-3 rounded-full text-sm font-bold shadow-md hover:bg-gray-100 transition">
           View Details
         </button>
       </div>
