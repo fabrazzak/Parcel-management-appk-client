@@ -56,12 +56,25 @@ const Header = () => {
                             <HomeIcon className="h-5 w-5" />
                             Home
                         </NavLink>
+                        <NavLink
+                                            to={
+                                                webUser?.role === "admin"
+                                                    ? "/dashboard/statistics"
+                                                    : webUser?.role === "delivery-man"
+                                                        ? "/dashboard/my-delivery-list"
+                                                        : "/dashboard/book-parcel"
+                                            }
+                                            onClick={() => setIsActive(webUser?.role === "admin" ? "statistics" : webUser?.role === "delivery-man" ? "my-delivery-list" : "book-parcel")}
+                                            className={`font-bold py-1 rounded-sm ${isActive === "dashboard" ? "bg-white text-[#0B0B0B]": " text-white ps-3"  } w-full hover:bg-[#0B0B0B] hover:text-white px-4 text-center`}
+                                        >
+                                            Dashboard
+                                        </NavLink>
 
                         {
                             user ? <DropdownMenu >
                                 <DropdownMenuTrigger asChild>
                                     <div size="icon" className="rounded-full   flex items-center ">
-                                        {webUser ? <img src={webUser?.photoURL} referrerPolicy="no-referrer" className="w-10 h-10 rounded-full cursor-pointer" /> : <RxAvatar className="text-2xl cursor-pointer" />}
+                                        {webUser ? <img src={webUser?.photoURL} referrerPolicy="no-referrer" className="w-20 h-10 rounded-full  cursor-pointer" /> : <RxAvatar className="text-2xl cursor-pointer" />}
 
                                         <span className="sr-only">profile</span>
                                     </div>
