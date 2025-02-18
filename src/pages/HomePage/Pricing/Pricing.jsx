@@ -1,6 +1,7 @@
 import { Button } from '@/src/components/ui/button';
 import { Card, CardContent } from '@/src/components/ui/card';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Pricing = () => {
     const pricing = [
@@ -23,7 +24,7 @@ const Pricing = () => {
                   <li key={i}>✔ {feature}</li>
                 ))}
               </ul>
-              <Button className="w-full bg-primary hover:bg-primary/80">Choose Plan</Button>
+             <Link to="/dashboard/book-parcel"> <Button className="w-full bg-primary hover:bg-primary/80">Choose Plan</Button></Link>
             </CardContent>
           </Card>
         ))}
