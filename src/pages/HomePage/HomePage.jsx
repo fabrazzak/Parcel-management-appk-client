@@ -5,6 +5,7 @@ import Statistics from "./Statistics/Statistics";
 import TopDeliveryMen from "./TopDeliveryMan/TopDeliveryMan";
 import HowItWork from "./HowItWork/HowItWork";
 import Testimonials from "./Testimonials/Testimonials";
+import Pricing from "./Pricing/Pricing";
 
 
 
@@ -21,6 +22,7 @@ const HomePage = () => {
             <TopDeliveryMen></TopDeliveryMen>
             <HowItWork></HowItWork>
             <Testimonials></Testimonials>
+            <Pricing></Pricing>
 
 
         </div>
