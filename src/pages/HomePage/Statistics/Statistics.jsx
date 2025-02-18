@@ -40,9 +40,9 @@ const Statistics = () => {
         }
     ];
     return (
-        <div className="py-12 bg-white">
+        <div className="py-12  bg-gradient-to-r from-purple-500 to-purple-700">
             <div className="max-w-[1200px] mx-auto px-4 text-center">
-                <h2 className="text-3xl font-bold mb-8 text-gray-800">Our Statistics</h2>
+                <h2 className="text-3xl font-bold mb-8 text-white">Our Statistics</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {stats.map((stat, index) => (
                         <Card 

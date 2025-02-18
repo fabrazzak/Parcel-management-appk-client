@@ -10,11 +10,11 @@ const Pricing = () => {
       ];
     return (
         <div>
-            <section className="py-16 bg-gray-900 text-white text-center">
+            <section className="py-16   text-center">
       <h2 className="text-3xl font-bold mb-8">Our Pricing</h2>
-      <div className="grid md:grid-cols-3 gap-6 justify-center">
+      <div className="grid md:grid-cols-3 gap-6 justify-center  max-w-[1200px] mx-auto">
         {pricing.map((plan, index) => (
-          <Card key={index} className="bg-gray-800 p-6">
+          <Card key={index} className=" text-center p-6 bg-white shadow-md rounded-lg transform transition-transform hover:scale-105 hover:shadow-xl">
             <CardContent>
               <h3 className="text-xl font-semibold">{plan.weight}</h3>
               <p className="text-3xl font-bold text-primary my-4">{plan.price}</p>
