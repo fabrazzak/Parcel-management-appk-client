@@ -11,13 +11,13 @@ const Testimonials = () => {
       ];
     return (
         <div>
-            <section className="py-16 bg-gradient-to-r from-purple-500 to-purple-700 text-white text-center">
-                <h2 className="text-3xl font-bold mb-8">What Our Users Say</h2>
+            <section className="py-16 bg-gradient-to-r from-purple-500 to-purple-700 dark:from-black dark:to-black/8 text-white text-center">
+                <h2 className="text-3xl font-bold mb-8 dark:text-white">What Our Users Say</h2>
                 <Carousel className="w-full max-w-3xl mx-auto">
                     <CarouselContent>
                         {testimonials.map((user, index) => (
                             <CarouselItem key={index} className="p-4">
-                                <Card className="p-6 bg-white shadow-md rounded-lg cursor-pointer transform transition-transform  hover:shadow-xl">
+                                <Card className="p-6 bg-white dark:bg-black shadow-md rounded-lg cursor-pointer transform transition-transform  hover:shadow-xl">
                                     <CardContent className="p-6">
                                         <Avatar className="mx-auto mb-4 w-20 h-20 ">
                                             <AvatarImage  src={user.image} alt={user.name} />

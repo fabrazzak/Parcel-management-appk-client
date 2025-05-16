@@ -32,14 +32,14 @@ const TopDeliveryMen = () => {
 
   return (
     <div className="max-w-[1200px] mx-auto py-12 px-4">
-  <h1 className="text-center text-3xl font-extrabold text-gray-800 mb-8 tracking-wide">
+  <h1 className="text-center text-3xl font-extrabold text-gray-800 dark:text-white mb-8 tracking-wide">
     Top Delivery Men
   </h1>
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
     {[...deliveryMen]?.map((man,index) => (
       <div
         key={index}
-        className="bg-gradient-to-r from-purple-500 to-purple-700 shadow-lg rounded-xl p-6 flex flex-col items-center hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+        className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-black dark:to-black shadow-lg rounded-xl p-6 flex flex-col items-center hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
       >
         <div className="relative w-24 h-24 mb-4">
           <img referrerPolicy="no-referrer"

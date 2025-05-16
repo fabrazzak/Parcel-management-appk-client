@@ -3,7 +3,9 @@ import Lottie from 'lottie-react';
 import { Input } from '@/src/components/ui/input';
 import { Button } from '@/src/components/ui/button';
 
+
 const Banner = () => {
+
     return (
         <div className="relative flex items-center justify-center md:h-screen h-[350px] overflow-hidden md:max-w-[1920px] mx-auto">
             {/* Lottie Animation as Background */}
@@ -12,7 +14,7 @@ const Banner = () => {
             </div>
 
             {/* Overlay */}
-            <div className="absolute inset-0 bg-black/60"></div>
+            <div className="absolute inset-0 bg-black/60 dark:bg-black/80"></div>
 
             {/* Content */}
             <div className="relative z-10 text-center text-white px-4">

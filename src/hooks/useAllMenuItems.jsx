@@ -15,6 +15,7 @@ const useAllMenuItems = () => {
         { id: "all-parcels", label: "All Parcels", icon: <ParcelIcon />, to: "all-parcels" },
         { id: "all-users", label: "All Users", icon: <UsersIcon />, to: "all-users" },
         { id: "all-delivery-man", label: "All Delivery Men", icon: <DeliveryManIcon />, to: "all-delivery-man" },
+        { id: "my-profile", label: "My Profile", icon: <UsersIcon />, to: "my-profile" },
         
       ]
     },
@@ -33,6 +34,7 @@ const useAllMenuItems = () => {
         { id: "home", label: "Home", icon: <ParcelIcon />, to: "/" },
         { id: "my-delivery-list", label: "My Delivery List", icon: <DeliveryListIcon />, to: "my-delivery-list" },
         { id: "my-reviews", label: "My Reviews", icon: <ReviewIcon />, to: "my-reviews" },
+        { id: "my-profile", label: "My Profile", icon: <UsersIcon />, to: "my-profile" },
       ]
     }
   ];
